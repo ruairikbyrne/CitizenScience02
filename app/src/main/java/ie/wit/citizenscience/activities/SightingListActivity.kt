@@ -1,15 +1,15 @@
 package ie.wit.citizenscience.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ie.wit.citizenscience.main.MainApp
-import ie.wit.citizenscience.models.SightingModel
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import ie.wit.citizenscience.R
+import ie.wit.citizenscience.adapters.SightingAdapter
 import ie.wit.citizenscience.databinding.ActivitySightingListBinding
-import ie.wit.citizenscience.databinding.CardSightingBinding
 
 class SightingListActivity : AppCompatActivity() {
 
@@ -21,37 +21,29 @@ class SightingListActivity : AppCompatActivity() {
         binding = ActivitySightingListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.toolbar.title = title
+        setSupportActionBar(binding.toolbar)
+
         app = application as MainApp
 
         val layoutManager =  LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = SightingAdapter(app.sightings)
-    }
-}
-
-class SightingAdapter constructor(private var sightings: List<SightingModel>) :
-    RecyclerView.Adapter<SightingAdapter.MainHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
-        val binding = CardSightingBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false)
-
-        return MainHolder(binding)
+        binding.recyclerView.adapter = SightingAdapter(app.sightings.findAll())
     }
 
-    override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        val sighting = sightings[holder.adapterPosition]
-        holder.bind(sighting)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
-    override fun getItemCount(): Int = sightings.size
-
-    class MainHolder(private val binding : CardSightingBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(sighting: SightingModel) {
-            binding.sightingClassification.text = sighting.classification
-            binding.sightingSpecies.text = sighting.species
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_add -> {
+                val launcherIntent = Intent(this, SightingActivity::class.java)
+                startActivityForResult(launcherIntent,0)
+            }
         }
+        return super.onOptionsItemSelected(item)
     }
 }
+

@@ -3,4 +3,6 @@
     <string name="button_addSighting">Add Sighting</string>
     <string name="hint_sightingClassification">Classification</string>
     <string name="hint_sightingSpecies">Species</string>
+    <string name="menu_addSighting">Add</string>
+    <string name="menu_cancelSighting">Cancel</string>
 </resources>

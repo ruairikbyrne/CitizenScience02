@@ -2,7 +2,10 @@ package ie.wit.citizenscience.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.google.android.material.snackbar.Snackbar
+import ie.wit.citizenscience.R
 import ie.wit.citizenscience.databinding.ActivitySightingBinding
 import ie.wit.citizenscience.main.MainApp
 import ie.wit.citizenscience.models.SightingModel
@@ -21,6 +24,9 @@ class SightingActivity : AppCompatActivity() {
         binding = ActivitySightingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.toolbarAdd.title = title
+        setSupportActionBar(binding.toolbarAdd)
+
         app = application as MainApp
         i("Sighting Activity started...")
 
@@ -28,10 +34,9 @@ class SightingActivity : AppCompatActivity() {
             sighting.classification = binding.sightingClassification.text.toString()
             sighting.species = binding.sightingSpecies.text.toString()
             if (sighting.classification.isNotEmpty()) {
-                app.sightings.add(sighting.copy())
-                i("add Button Pressed: Classification: ${sighting.classification} Species: ${sighting.species}")
-                for (i in app.sightings.indices)
-                    { i("Sighting[$i]:${this.app.sightings[i]}")}
+                app.sightings.create(sighting.copy())
+                setResult(RESULT_OK)
+                finish()
             }
             else {
                 Snackbar
@@ -39,5 +44,19 @@ class SightingActivity : AppCompatActivity() {
                     .show()
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_sighting, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_cancel -> {
+                finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
