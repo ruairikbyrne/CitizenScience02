@@ -9,9 +9,11 @@ import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import ie.wit.citizenscience.R
 import ie.wit.citizenscience.adapters.SightingAdapter
+import ie.wit.citizenscience.adapters.SightingListener
 import ie.wit.citizenscience.databinding.ActivitySightingListBinding
+import ie.wit.citizenscience.models.SightingModel
 
-class SightingListActivity : AppCompatActivity() {
+class SightingListActivity : AppCompatActivity(), SightingListener {
 
     lateinit var app: MainApp
     private lateinit var binding: ActivitySightingListBinding
@@ -28,7 +30,7 @@ class SightingListActivity : AppCompatActivity() {
 
         val layoutManager =  LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = SightingAdapter(app.sightings.findAll())
+        binding.recyclerView.adapter = SightingAdapter(app.sightings.findAll(), this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -44,6 +46,12 @@ class SightingListActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSightingClick(sighting: SightingModel) {
+        val launcherIntent = Intent(this, SightingActivity::class.java)
+        launcherIntent.putExtra("sighting_edit", sighting)
+        startActivityForResult(launcherIntent,0)
     }
 }
 

@@ -20,6 +20,7 @@ class SightingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var edit = false
 
         binding = ActivitySightingBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -30,19 +31,32 @@ class SightingActivity : AppCompatActivity() {
         app = application as MainApp
         i("Sighting Activity started...")
 
+        if (intent.hasExtra("sighting_edit")) {
+            edit = true
+            sighting = intent.extras?.getParcelable("sighting_edit")!!
+            binding.sightingClassification.setText(sighting.classification)
+            binding.sightingSpecies.setText(sighting.species)
+            binding.btnAdd.setText(R.string.button_updateSighting)
+        }
+
         binding.btnAdd.setOnClickListener() {
             sighting.classification = binding.sightingClassification.text.toString()
             sighting.species = binding.sightingSpecies.text.toString()
-            if (sighting.classification.isNotEmpty()) {
-                app.sightings.create(sighting.copy())
-                setResult(RESULT_OK)
-                finish()
-            }
-            else {
-                Snackbar
-                    .make(it,"Please Enter a title", Snackbar.LENGTH_LONG)
+            if (sighting.classification.isEmpty()) {
+                Snackbar.make(it, "Please enter a classification", Snackbar.LENGTH_LONG)
                     .show()
+            } else {
+                if (edit) {
+                    app.sightings.update(sighting.copy())
+                } else {
+                    app.sightings.create(sighting.copy())
+                }
+
+
             }
+            setResult(RESULT_OK)
+            finish()
+
         }
     }
 

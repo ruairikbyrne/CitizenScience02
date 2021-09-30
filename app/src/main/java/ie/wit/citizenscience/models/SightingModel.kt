@@ -1,4 +1,9 @@
 package ie.wit.citizenscience.models
 
-data class SightingModel(var classification: String = "",
-                            var species: String = "")
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class SightingModel(var id : Long = 0,
+                            var classification: String = "",
+                            var species: String = "") : Parcelable

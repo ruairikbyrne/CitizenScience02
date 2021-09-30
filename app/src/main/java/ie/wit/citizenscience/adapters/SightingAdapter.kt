@@ -6,7 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import ie.wit.citizenscience.databinding.CardSightingBinding
 import ie.wit.citizenscience.models.SightingModel
 
-class SightingAdapter constructor(private var sightings: List<SightingModel>) :
+interface SightingListener {
+    fun onSightingClick(placemark: SightingModel)
+}
+
+class SightingAdapter constructor(private var sightings: List<SightingModel>,
+                                    private val listener: SightingListener) :
     RecyclerView.Adapter<SightingAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -18,7 +23,7 @@ class SightingAdapter constructor(private var sightings: List<SightingModel>) :
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val sighting = sightings[holder.adapterPosition]
-        holder.bind(sighting)
+        holder.bind(sighting, listener)
     }
 
     override fun getItemCount(): Int = sightings.size
@@ -26,9 +31,10 @@ class SightingAdapter constructor(private var sightings: List<SightingModel>) :
     class MainHolder(private val binding : CardSightingBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(sighting: SightingModel) {
+        fun bind(sighting: SightingModel, listener : SightingListener) {
             binding.sightingClassification.text = sighting.classification
             binding.sightingSpecies.text = sighting.species
+            binding.root.setOnClickListener { listener.onSightingClick(sighting) }
         }
     }
 }
