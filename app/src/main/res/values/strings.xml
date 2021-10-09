@@ -2,6 +2,9 @@
     <string name="app_name">Citizen Science</string>
     <string name="button_addSighting">Add Sighting</string>
     <string name="button_updateSighting">Update Sighting</string>
+    <string name="button_updateImage">Update Image</string>
+    <string name="button_addImage">Add Image</string>
+    <string name="select_sighting_image">Select Sighting Image</string>
     <string name="hint_sightingClassification">Classification</string>
     <string name="hint_sightingSpecies">Species</string>
     <string name="menu_addSighting">Add</string>

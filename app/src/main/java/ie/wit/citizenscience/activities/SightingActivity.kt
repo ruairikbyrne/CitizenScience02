@@ -1,12 +1,17 @@
 package ie.wit.citizenscience.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import ie.wit.citizenscience.R
 import ie.wit.citizenscience.databinding.ActivitySightingBinding
+import ie.wit.citizenscience.helpers.showImagePicker
 import ie.wit.citizenscience.main.MainApp
 import ie.wit.citizenscience.models.SightingModel
 import timber.log.Timber
@@ -15,6 +20,7 @@ import timber.log.Timber.i
 class SightingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySightingBinding
+    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     var sighting = SightingModel()
     lateinit var app : MainApp
 
@@ -37,6 +43,15 @@ class SightingActivity : AppCompatActivity() {
             binding.sightingClassification.setText(sighting.classification)
             binding.sightingSpecies.setText(sighting.species)
             binding.btnAdd.setText(R.string.button_updateSighting)
+            binding.chooseImage.setText((R.string.button_updateImage))
+            Picasso.get()
+                .load(sighting.image)
+                .into(binding.sightingImage)
+        }
+
+        binding.chooseImage.setOnClickListener {
+            showImagePicker(imageIntentLauncher)
+            i("Select image")
         }
 
         binding.btnAdd.setOnClickListener() {
@@ -58,6 +73,7 @@ class SightingActivity : AppCompatActivity() {
             finish()
 
         }
+        registerImagePickerCallback()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -72,5 +88,24 @@ class SightingActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Result ${result.data!!.data}")
+                            sighting.image = result.data!!.data!!
+                            Picasso.get()
+                                .load(sighting.image)
+                                .into(binding.sightingImage)
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 }

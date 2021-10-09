@@ -26,6 +26,7 @@ class SightingMemStore : SightingStore {
         if (foundSighting != null) {
             foundSighting.classification = sighting.classification
             foundSighting.species = sighting.species
+            foundSighting.image = sighting.image
             logAll()
         }
     }
