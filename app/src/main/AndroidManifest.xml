@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ie.wit.citizenscience">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:name=".main.MainApp"
         android:allowBackup="true"
@@ -10,6 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CitizenScience">
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".activities.MapActivity"
+            android:exported="false"
+            android:label="@string/title_activity_map" />
         <activity
             android:name=".activities.SightingListActivity"
             android:exported="true">
@@ -21,9 +33,7 @@
         </activity>
         <activity
             android:name=".activities.SightingActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>

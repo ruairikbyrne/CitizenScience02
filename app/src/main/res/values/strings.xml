@@ -4,9 +4,12 @@
     <string name="button_updateSighting">Update Sighting</string>
     <string name="button_updateImage">Update Image</string>
     <string name="button_addImage">Add Image</string>
+    <string name="button_location">Set Location</string>
     <string name="select_sighting_image">Select Sighting Image</string>
     <string name="hint_sightingClassification">Classification</string>
     <string name="hint_sightingSpecies">Species</string>
     <string name="menu_addSighting">Add</string>
     <string name="menu_cancelSighting">Cancel</string>
+    <string name="title_activity_map">Map</string>
+
 </resources>

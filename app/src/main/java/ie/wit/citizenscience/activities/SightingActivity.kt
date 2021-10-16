@@ -1,6 +1,7 @@
 package ie.wit.citizenscience.activities
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -13,6 +14,7 @@ import ie.wit.citizenscience.R
 import ie.wit.citizenscience.databinding.ActivitySightingBinding
 import ie.wit.citizenscience.helpers.showImagePicker
 import ie.wit.citizenscience.main.MainApp
+import ie.wit.citizenscience.models.Location
 import ie.wit.citizenscience.models.SightingModel
 import timber.log.Timber
 import timber.log.Timber.i
@@ -21,8 +23,11 @@ class SightingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySightingBinding
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
+
     var sighting = SightingModel()
     lateinit var app : MainApp
+    var location = Location(52.292, -6.497, 16f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,15 +48,24 @@ class SightingActivity : AppCompatActivity() {
             binding.sightingClassification.setText(sighting.classification)
             binding.sightingSpecies.setText(sighting.species)
             binding.btnAdd.setText(R.string.button_updateSighting)
-            binding.chooseImage.setText((R.string.button_updateImage))
             Picasso.get()
                 .load(sighting.image)
                 .into(binding.sightingImage)
+            if (sighting.image != Uri.EMPTY) {
+                binding.chooseImage.setText((R.string.button_updateImage))
+            }
         }
 
         binding.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)
             i("Select image")
+        }
+
+        binding.sightingLocation.setOnClickListener {
+            i ("Set Location Pressed")
+            val launcherIntent = Intent(this, MapActivity::class.java)
+                .putExtra("location", location)
+            mapIntentLauncher.launch(launcherIntent)
         }
 
         binding.btnAdd.setOnClickListener() {
@@ -74,6 +88,7 @@ class SightingActivity : AppCompatActivity() {
 
         }
         registerImagePickerCallback()
+        registerMapCallback()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -102,6 +117,24 @@ class SightingActivity : AppCompatActivity() {
                             Picasso.get()
                                 .load(sighting.image)
                                 .into(binding.sightingImage)
+                            binding.chooseImage.setText((R.string.button_updateImage))
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when (result.resultCode) {
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Location ${result.data.toString()}")
+                            location = result.data!!.extras?.getParcelable("location")!!
+                            i("Location == $location")
                         } // end of if
                     }
                     RESULT_CANCELED -> { } else -> { }

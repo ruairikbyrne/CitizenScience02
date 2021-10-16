@@ -6,6 +6,8 @@ import android.os.Bundle
 import ie.wit.citizenscience.main.MainApp
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import ie.wit.citizenscience.R
 import ie.wit.citizenscience.adapters.SightingAdapter
@@ -17,6 +19,7 @@ class SightingListActivity : AppCompatActivity(), SightingListener {
 
     lateinit var app: MainApp
     private lateinit var binding: ActivitySightingListBinding
+    private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +34,9 @@ class SightingListActivity : AppCompatActivity(), SightingListener {
         val layoutManager =  LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = SightingAdapter(app.sightings.findAll(), this)
+
+        registerRefreshCallback()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -42,7 +48,7 @@ class SightingListActivity : AppCompatActivity(), SightingListener {
         when (item.itemId) {
             R.id.item_add -> {
                 val launcherIntent = Intent(this, SightingActivity::class.java)
-                startActivityForResult(launcherIntent,0)
+                refreshIntentLauncher.launch(launcherIntent)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -51,12 +57,18 @@ class SightingListActivity : AppCompatActivity(), SightingListener {
     override fun onSightingClick(sighting: SightingModel) {
         val launcherIntent = Intent(this, SightingActivity::class.java)
         launcherIntent.putExtra("sighting_edit", sighting)
-        startActivityForResult(launcherIntent,0)
+        refreshIntentLauncher.launch(launcherIntent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         binding.recyclerView.adapter?.notifyDataSetChanged()
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun registerRefreshCallback() {
+        refreshIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { binding.recyclerView.adapter?.notifyDataSetChanged() }
     }
 }
 
