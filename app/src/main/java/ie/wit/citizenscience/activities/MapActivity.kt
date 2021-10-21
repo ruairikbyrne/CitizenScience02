@@ -17,7 +17,7 @@ import ie.wit.citizenscience.databinding.ActivityMapBinding
 import ie.wit.citizenscience.models.Location
 
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerDragListener {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener {
 
     private lateinit var map: GoogleMap
     private lateinit var binding: ActivityMapBinding
@@ -41,12 +41,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerD
         val loc = LatLng(location.lat, location.lng)
         val options = MarkerOptions()
             .position(loc)
-            .title("Placemark")
+            .title("Sighting")
             .snippet("GPS : $loc")
             .draggable(true)
         map.addMarker(options)
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, location.zoom))
         map.setOnMarkerDragListener(this)
+        map.setOnMarkerClickListener(this)
     }
 
     override fun onMarkerDragStart(marker: Marker) {
@@ -61,6 +62,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerD
         location.lat = marker.position.latitude
         location.lng = marker.position.longitude
         location.zoom = map.cameraPosition.zoom
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        val loc = LatLng(location.lat, location.lng)
+        marker.snippet = "GPS : $loc"
+        return false
     }
 
     override fun onBackPressed() {

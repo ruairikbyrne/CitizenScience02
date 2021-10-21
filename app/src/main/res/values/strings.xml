@@ -10,6 +10,7 @@
     <string name="hint_sightingSpecies">Species</string>
     <string name="menu_addSighting">Add</string>
     <string name="menu_cancelSighting">Cancel</string>
+    <string name="menu_deleteSighting">Delete</string>
     <string name="title_activity_map">Map</string>
 
 </resources>

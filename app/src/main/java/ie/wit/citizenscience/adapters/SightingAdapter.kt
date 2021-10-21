@@ -8,7 +8,7 @@ import ie.wit.citizenscience.databinding.CardSightingBinding
 import ie.wit.citizenscience.models.SightingModel
 
 interface SightingListener {
-    fun onSightingClick(placemark: SightingModel)
+    fun onSightingClick(sighting: SightingModel)
 }
 
 class SightingAdapter constructor(private var sightings: List<SightingModel>,
@@ -28,6 +28,7 @@ class SightingAdapter constructor(private var sightings: List<SightingModel>,
     }
 
     override fun getItemCount(): Int = sightings.size
+
 
     class MainHolder(private val binding : CardSightingBinding) :
         RecyclerView.ViewHolder(binding.root) {

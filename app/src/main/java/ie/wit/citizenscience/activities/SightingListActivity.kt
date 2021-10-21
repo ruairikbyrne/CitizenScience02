@@ -21,6 +21,7 @@ class SightingListActivity : AppCompatActivity(), SightingListener {
     private lateinit var binding: ActivitySightingListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySightingListBinding.inflate(layoutInflater)
@@ -33,11 +34,13 @@ class SightingListActivity : AppCompatActivity(), SightingListener {
 
         val layoutManager =  LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = SightingAdapter(app.sightings.findAll(), this)
+        loadSightings()
 
         registerRefreshCallback()
 
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -60,6 +63,9 @@ class SightingListActivity : AppCompatActivity(), SightingListener {
         refreshIntentLauncher.launch(launcherIntent)
     }
 
+
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         binding.recyclerView.adapter?.notifyDataSetChanged()
         super.onActivityResult(requestCode, resultCode, data)
@@ -68,7 +74,16 @@ class SightingListActivity : AppCompatActivity(), SightingListener {
     private fun registerRefreshCallback() {
         refreshIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { binding.recyclerView.adapter?.notifyDataSetChanged() }
+            { loadSightings() }
+    }
+
+    private fun loadSightings() {
+        showSightings(app.sightings.findAll())
+    }
+
+    fun showSightings (sightings: List<SightingModel>) {
+        binding.recyclerView.adapter = SightingAdapter(sightings, this)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 }
 

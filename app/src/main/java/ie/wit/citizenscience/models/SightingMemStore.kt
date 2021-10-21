@@ -21,12 +21,22 @@ class SightingMemStore : SightingStore {
         logAll()
     }
 
+    override fun delete(sighting: SightingModel) {
+        var foundSighting: SightingModel? = sightings.find { s -> s.id == sighting.id }
+        if (foundSighting != null) {
+            sightings.remove(foundSighting)
+            logAll()
+        }
+    }
     override fun update(sighting: SightingModel) {
         var foundSighting: SightingModel? = sightings.find { s -> s.id == sighting.id }
         if (foundSighting != null) {
             foundSighting.classification = sighting.classification
             foundSighting.species = sighting.species
             foundSighting.image = sighting.image
+            foundSighting.lat = sighting.lat
+            foundSighting.lng = sighting.lng
+            foundSighting.zoom = sighting.zoom
             logAll()
         }
     }

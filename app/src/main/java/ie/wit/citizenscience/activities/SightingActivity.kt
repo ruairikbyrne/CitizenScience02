@@ -27,7 +27,7 @@ class SightingActivity : AppCompatActivity() {
 
     var sighting = SightingModel()
     lateinit var app : MainApp
-    var location = Location(52.292, -6.497, 16f)
+    //var location = Location(52.292, -6.497, 16f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +63,12 @@ class SightingActivity : AppCompatActivity() {
 
         binding.sightingLocation.setOnClickListener {
             i ("Set Location Pressed")
+            val location = Location(52.292, -6.497, 16f)
+            if (sighting.zoom != 0f) {
+                location.lat =  sighting.lat
+                location.lng = sighting.lng
+                location.zoom = sighting.zoom
+            }
             val launcherIntent = Intent(this, MapActivity::class.java)
                 .putExtra("location", location)
             mapIntentLauncher.launch(launcherIntent)
@@ -101,6 +107,11 @@ class SightingActivity : AppCompatActivity() {
             R.id.item_cancel -> {
                 finish()
             }
+            R.id.item_delete -> {
+                app.sightings.delete(sighting.copy())
+                finish()
+            }
+
         }
         return super.onOptionsItemSelected(item)
     }
@@ -133,8 +144,11 @@ class SightingActivity : AppCompatActivity() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Location ${result.data.toString()}")
-                            location = result.data!!.extras?.getParcelable("location")!!
+                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
                             i("Location == $location")
+                            sighting.lat = location.lat
+                            sighting.lng = location.lng
+                            sighting.zoom = location.zoom
                         } // end of if
                     }
                     RESULT_CANCELED -> { } else -> { }
