@@ -12,5 +12,8 @@
     <string name="menu_cancelSighting">Cancel</string>
     <string name="menu_deleteSighting">Delete</string>
     <string name="title_activity_map">Map</string>
+    <string name="sighting_image_placeholder">Sighting Image</string>
+    <string name="sighting_classification_placeholder">Sighting Classification</string>
+    <string name="sighting_species_placeholder">Sighting Species</string>
 
 </resources>

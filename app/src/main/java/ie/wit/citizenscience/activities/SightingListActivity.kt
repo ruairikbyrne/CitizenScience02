@@ -15,12 +15,12 @@ import ie.wit.citizenscience.adapters.SightingListener
 import ie.wit.citizenscience.databinding.ActivitySightingListBinding
 import ie.wit.citizenscience.models.SightingModel
 
-class SightingListActivity : AppCompatActivity(), SightingListener {
+class SightingListActivity : AppCompatActivity(), SightingListener/*, MultiplePermissionsListener*/ {
 
     lateinit var app: MainApp
     private lateinit var binding: ActivitySightingListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
-
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,7 @@ class SightingListActivity : AppCompatActivity(), SightingListener {
         loadSightings()
 
         registerRefreshCallback()
-
+        registerMapCallback()
     }
 
 
@@ -53,6 +53,10 @@ class SightingListActivity : AppCompatActivity(), SightingListener {
                 val launcherIntent = Intent(this, SightingActivity::class.java)
                 refreshIntentLauncher.launch(launcherIntent)
             }
+            R.id.item_map -> {
+                val launcherIntent = Intent(this, SightingMapsActivity::class.java)
+                mapIntentLauncher.launch(launcherIntent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -65,16 +69,23 @@ class SightingListActivity : AppCompatActivity(), SightingListener {
 
 
 
-
+/**
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         binding.recyclerView.adapter?.notifyDataSetChanged()
         super.onActivityResult(requestCode, resultCode, data)
     }
+**/
 
     private fun registerRefreshCallback() {
         refreshIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { loadSightings() }
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            {  }
     }
 
     private fun loadSightings() {
