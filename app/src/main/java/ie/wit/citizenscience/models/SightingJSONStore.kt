@@ -48,6 +48,8 @@ class SightingJSONStore(private val context: Context) : SightingStore {
             logAll()
         }
     }
+
+
     override fun update(sighting: SightingModel) {
         var foundSighting: SightingModel? = sightings.find { s -> s.id == sighting.id }
         if (foundSighting != null) {

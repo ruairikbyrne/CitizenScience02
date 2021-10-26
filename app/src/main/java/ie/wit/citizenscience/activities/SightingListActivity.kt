@@ -6,14 +6,19 @@ import android.os.Bundle
 import ie.wit.citizenscience.main.MainApp
 import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import ie.wit.citizenscience.R
 import ie.wit.citizenscience.adapters.SightingAdapter
 import ie.wit.citizenscience.adapters.SightingListener
 import ie.wit.citizenscience.databinding.ActivitySightingListBinding
 import ie.wit.citizenscience.models.SightingModel
+import java.util.*
 
 class SightingListActivity : AppCompatActivity(), SightingListener/*, MultiplePermissionsListener*/ {
 
@@ -21,6 +26,9 @@ class SightingListActivity : AppCompatActivity(), SightingListener/*, MultiplePe
     private lateinit var binding: ActivitySightingListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
+
+    var sightinglisting: MutableList<SightingModel> = mutableListOf()
+    var matchedSightings: MutableList<SightingModel> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +44,96 @@ class SightingListActivity : AppCompatActivity(), SightingListener/*, MultiplePe
         binding.recyclerView.layoutManager = layoutManager
         loadSightings()
 
+        binding.searchView.isSubmitButtonEnabled = true
+        //performSearch()
+
         registerRefreshCallback()
         registerMapCallback()
     }
+/*
+    private fun performSearch() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                search(query)
+                return true
+            }
 
+            override fun onQueryTextChange(newText: String?): Boolean {
+                search(newText)
+                return true
+            }
+        })
+    }
 
+    private fun search(text: String?) {
+        matchedSightings = mutableListOf()
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        text?.let {
+            sightinglisting.forEach { sightinglisting ->
+                if (sightinglisting.classification.contains(text, true) ||
+                    sightinglisting.species.contains(text, true)
+                ) {
+                    matchedSightings.add(sightinglisting)
+                }
+            }
+            binding.recyclerView.adapter?.notifyDataSetChanged()
+            //updateRecyclerView()
+            if (matchedSightings.isEmpty()) {
+                Toast.makeText(this, "No match found!", Toast.LENGTH_SHORT).show()
+            }
+            binding.recyclerView.adapter?.notifyDataSetChanged()
+            //updateRecyclerView()
+        }
+    }
+
+*/
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+
+        sightinglisting.addAll(app.sightings.findAll())
+        matchedSightings.addAll(app.sightings.findAll())
+        val menuItem = menu!!.findItem(R.id.action_search)
+        if (menuItem != null) {
+
+            val searchView = menuItem.actionView as SearchView
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+
+                    if (newText!!.isNotEmpty()) {
+                        matchedSightings.clear()
+                        val search = newText.toLowerCase(Locale.getDefault())
+                        sightinglisting.forEach {
+                            if (it.classification.toLowerCase(Locale.getDefault()).contains(search) ||
+                                    it.species.toLowerCase(Locale.getDefault()).contains(search)){
+                                matchedSightings.add(it)
+                            }
+                        }
+
+                        binding.recyclerView.adapter!!.notifyDataSetChanged()
+
+                    }
+                    else {
+                        matchedSightings.clear()
+                        matchedSightings.addAll(sightinglisting)
+
+                        showFilteredSightings(matchedSightings)
+
+
+
+                    }
+                    return true
+                }
+
+            })
+
+
+
+        }
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -94,6 +184,11 @@ class SightingListActivity : AppCompatActivity(), SightingListener/*, MultiplePe
 
     fun showSightings (sightings: List<SightingModel>) {
         binding.recyclerView.adapter = SightingAdapter(sightings, this)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    fun showFilteredSightings (sightings: List<SightingModel>) {
+        binding.recyclerView.adapter = SightingAdapter(matchedSightings, this)
         binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/sightingFragment">
+    <fragment
+        android:id="@+id/sightingListFragment"
+        android:name="ie.wit.citizenscience.SightingListFragment"
+        android:label="fragment_sighting_list"
+        tools:layout="@layout/fragment_sighting_list" />
+    <fragment
+        android:id="@+id/sightingFragment"
+        android:name="ie.wit.citizenscience.SightingFragment"
+        android:label="fragment_sighting"
+        tools:layout="@layout/fragment_sighting" />
+
+</navigation>

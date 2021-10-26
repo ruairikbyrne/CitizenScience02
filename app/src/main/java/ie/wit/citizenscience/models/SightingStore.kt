@@ -5,4 +5,5 @@ interface SightingStore {
     fun create(sighting: SightingModel)
     fun update(sighting: SightingModel)
     fun delete(sighting: SightingModel)
+
 }

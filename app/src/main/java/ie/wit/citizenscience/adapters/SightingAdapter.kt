@@ -27,6 +27,8 @@ class SightingAdapter constructor(private var sightings: List<SightingModel>,
         holder.bind(sighting, listener)
     }
 
+
+
     override fun getItemCount(): Int = sightings.size
 
 
@@ -40,4 +42,6 @@ class SightingAdapter constructor(private var sightings: List<SightingModel>,
             binding.root.setOnClickListener { listener.onSightingClick(sighting) }
         }
     }
+
+
 }
