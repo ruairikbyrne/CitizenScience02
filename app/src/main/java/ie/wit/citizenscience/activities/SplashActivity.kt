@@ -21,6 +21,7 @@ class SplashActivity : AppCompatActivity() {
 
             startActivity(Intent(this,SightingListActivity::class.java))
 
+            //startActivity(Intent(this,Home::class.java))
             // close this activity
             finish()
         }, SPLASH_TIME_OUT)

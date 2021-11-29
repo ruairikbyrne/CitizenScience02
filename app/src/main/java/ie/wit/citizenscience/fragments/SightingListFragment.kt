@@ -1,16 +1,15 @@
-package ie.wit.citizenscience
+package ie.wit.citizenscience.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
+import ie.wit.citizenscience.R
 import ie.wit.citizenscience.activities.SightingActivity
 import ie.wit.citizenscience.activities.SightingMapsActivity
 import ie.wit.citizenscience.adapters.SightingAdapter
@@ -49,8 +48,8 @@ class SightingListFragment : Fragment(), SightingListener/*, MultiplePermissions
         fragBinding.recyclerView.setLayoutManager(LinearLayoutManager(activity))
         //fragBinding.recyclerView.adapter = SightingAdapter(app.sightings.findAll())
         loadSightings()
-        registerRefreshCallback()
-        registerMapCallback()
+        //registerRefreshCallback()
+        //registerMapCallback()
         return root;
 
         //return inflater.inflate(R.layout.fragment_sighting_list, container, false)
@@ -74,19 +73,16 @@ class SightingListFragment : Fragment(), SightingListener/*, MultiplePermissions
         _fragBinding = null
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_add -> {
-                val launcherIntent = Intent(requireContext(), SightingFragment::class.java)
-                refreshIntentLauncher.launch(launcherIntent)
-            }
-            R.id.item_map -> {
-                val launcherIntent = Intent(requireContext(), SightingMapsActivity::class.java)
-                mapIntentLauncher.launch(launcherIntent)
-            }
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_sightinglist, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item,
+            requireView().findNavController()) || super.onOptionsItemSelected(item)
+    }
+
     override fun onSightingClick(sighting: SightingModel) {
 
         val launcherIntent = Intent(requireContext(), SightingActivity::class.java)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ie.wit.citizenscience" >
+    package="ie.wit.citizenscience">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -11,10 +11,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CitizenScience" >
+        android:theme="@style/Theme.CitizenScience">
         <activity
             android:name=".activities.Home"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -26,21 +32,14 @@
             android:label="@string/title_activity_map" />
         <activity
             android:name=".activities.SightingListActivity"
-            android:exported="true"/>
-
-
-        <activity android:name=".activities.SplashActivity"
-            android:theme="@style/Theme.CitizenScience.NoActionBar"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-
+            android:exported="true" />
+        <activity
+            android:name=".activities.SplashActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CitizenScience.NoActionBar" />
         <activity
             android:name=".activities.SightingActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity android:name=".activities.SightingMapsActivity" />
     </application>
 

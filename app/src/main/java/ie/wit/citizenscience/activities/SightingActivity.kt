@@ -104,6 +104,7 @@ class SightingActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            /*
             R.id.item_cancel -> {
                 finish()
             }
@@ -111,7 +112,7 @@ class SightingActivity : AppCompatActivity() {
                 app.sightings.delete(sighting.copy())
                 finish()
             }
-
+*/
         }
         return super.onOptionsItemSelected(item)
     }
