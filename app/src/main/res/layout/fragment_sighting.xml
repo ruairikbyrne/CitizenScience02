@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_margin="8dp"
+        android:layout_marginEnd="8dp"
         android:hint="@string/hint_sightingClassification"
         android:inputType="text"
         android:maxLength="25"
@@ -22,7 +23,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.055"
+        app:layout_constraintVertical_bias="0.088"
         tools:ignore="Autofill,MissingConstraints"
         tools:layout_conversion_absoluteHeight="731dp"
         tools:layout_conversion_absoluteWidth="411dp" />

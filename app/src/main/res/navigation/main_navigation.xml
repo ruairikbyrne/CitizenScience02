@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/sightingFragment"
         android:name="ie.wit.citizenscience.fragments.SightingFragment"
-        android:label="fragment_sighting"
+        android:label="Create Sighting"
         tools:layout="@layout/fragment_sighting" >
         <action
             android:id="@+id/action_sightingFragment_to_sightingListFragment"
