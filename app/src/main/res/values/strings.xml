@@ -29,4 +29,7 @@
     <string name="nav_header_subtitle">Biodiversity</string>
     <string name="nav_header_desc">Navigation header</string>
 
+    <string name="sightingsNotFound">No Sightings Yet...\nClick + below to Add!</string>
+    <string name="sightingError">Error : Unable to Create a Sighting...</string>
+
 </resources>

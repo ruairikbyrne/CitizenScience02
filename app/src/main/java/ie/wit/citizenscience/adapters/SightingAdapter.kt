@@ -7,12 +7,9 @@ import com.squareup.picasso.Picasso
 import ie.wit.citizenscience.databinding.CardSightingBinding
 import ie.wit.citizenscience.models.SightingModel
 
-interface SightingListener {
-    fun onSightingClick(sighting: SightingModel)
-}
 
-class SightingAdapter constructor(private var sightings: List<SightingModel>,
-                                    private val listener: SightingListener) :
+
+class SightingAdapter constructor(private var sightings: List<SightingModel>) :
     RecyclerView.Adapter<SightingAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -24,7 +21,9 @@ class SightingAdapter constructor(private var sightings: List<SightingModel>,
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val sighting = sightings[holder.adapterPosition]
-        holder.bind(sighting, listener)
+        //holder.bind(sighting, listener)
+        holder.bind(sighting)
+
     }
 
 
@@ -35,11 +34,11 @@ class SightingAdapter constructor(private var sightings: List<SightingModel>,
     class MainHolder(private val binding : CardSightingBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(sighting: SightingModel, listener : SightingListener) {
+        fun bind(sighting: SightingModel) {
             binding.sightingClassification.text = sighting.classification
             binding.sightingSpecies.text = sighting.species
             Picasso.get().load(sighting.image).resize(200,200).into(binding.imageIcon)
-            binding.root.setOnClickListener { listener.onSightingClick(sighting) }
+
         }
     }
 

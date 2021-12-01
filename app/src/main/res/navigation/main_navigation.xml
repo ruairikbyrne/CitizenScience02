@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/sightingFragment">
+    app:startDestination="@id/sightingListFragment">
     <fragment
         android:id="@+id/sightingListFragment"
-        android:name="ie.wit.citizenscience.fragments.SightingListFragment"
-        android:label="fragment_sighting_list"
+        android:name="ie.wit.citizenscience.ui.sightingslist.SightingListFragment"
+        android:label="Reported Sightings"
         tools:layout="@layout/fragment_sighting_list" >
         <action
             android:id="@+id/action_sightingListFragment_to_sightingFragment"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/sightingFragment"
-        android:name="ie.wit.citizenscience.fragments.SightingFragment"
+        android:name="ie.wit.citizenscience.ui.sightings.SightingFragment"
         android:label="Create Sighting"
         tools:layout="@layout/fragment_sighting" >
         <action
@@ -26,5 +26,10 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="ie.wit.citizenscience.fragments.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
 
 </navigation>

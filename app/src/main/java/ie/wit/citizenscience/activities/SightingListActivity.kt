@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import ie.wit.citizenscience.R
 import ie.wit.citizenscience.adapters.SightingAdapter
-import ie.wit.citizenscience.adapters.SightingListener
+//import ie.wit.citizenscience.adapters.SightingListener
 import ie.wit.citizenscience.databinding.ActivitySightingListBinding
 import ie.wit.citizenscience.models.SightingModel
 import timber.log.Timber.i
 import java.util.*
-
+/*
 class SightingListActivity : AppCompatActivity(), SightingListener/*, MultiplePermissionsListener*/ {
 
     lateinit var app: MainApp
@@ -136,7 +136,8 @@ class SightingListActivity : AppCompatActivity(), SightingListener/*, MultiplePe
     }
 
     fun showSightings (sightings: List<SightingModel>) {
-        binding.recyclerView.adapter = SightingAdapter(sightings, this)
+        //binding.recyclerView.adapter = SightingAdapter(sightings, this)
+        binding.recyclerView.adapter = SightingAdapter(sightings)
         binding.recyclerView.adapter?.notifyDataSetChanged()
         sightinglisting.clear()
         sightinglisting.addAll(app.sightings.findAll())
@@ -145,8 +146,10 @@ class SightingListActivity : AppCompatActivity(), SightingListener/*, MultiplePe
 
     fun showFilteredSightings (sightings: List<SightingModel>) {
 
-        binding.recyclerView.adapter = SightingAdapter(matchedSightings, this)
+        //binding.recyclerView.adapter = SightingAdapter(matchedSightings, this)
+        binding.recyclerView.adapter = SightingAdapter(matchedSightings)
         binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 }
 
+*/

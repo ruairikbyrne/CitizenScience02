@@ -18,7 +18,7 @@ import ie.wit.citizenscience.models.Location
 import ie.wit.citizenscience.models.SightingModel
 import timber.log.Timber
 import timber.log.Timber.i
-
+/*
 class SightingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySightingBinding
@@ -89,16 +89,18 @@ class SightingActivity : AppCompatActivity() {
 
 
             }
+
+
             setResult(RESULT_OK)
             finish()
 
         }
-        registerImagePickerCallback()
-        registerMapCallback()
+        //registerImagePickerCallback()
+        //registerMapCallback()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_sighting, menu)
+        //menuInflater.inflate(R.menu.menu_sighting, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -112,7 +114,7 @@ class SightingActivity : AppCompatActivity() {
                 app.sightings.delete(sighting.copy())
                 finish()
             }
-*/
+
         }
         return super.onOptionsItemSelected(item)
     }
@@ -156,4 +158,8 @@ class SightingActivity : AppCompatActivity() {
                 }
             }
     }
+
+
 }
+
+ */

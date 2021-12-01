@@ -8,7 +8,7 @@ internal fun getId(): Long {
     return lastId++
 }
 
-class SightingMemStore : SightingStore {
+object SightingManager : SightingStore {
     val sightings = ArrayList<SightingModel>()
 
     override fun findAll(): List<SightingModel> {

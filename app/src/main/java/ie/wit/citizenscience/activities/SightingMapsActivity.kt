@@ -14,7 +14,7 @@ import ie.wit.citizenscience.databinding.ActivitySightingMapsBinding
 import ie.wit.citizenscience.databinding.ContentSightingMapsBinding
 import ie.wit.citizenscience.main.MainApp
 import ie.wit.citizenscience.models.SightingModel
-
+/*
 class SightingMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
 
     private lateinit var binding: ActivitySightingMapsBinding
@@ -88,4 +88,8 @@ class SightingMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListene
         super.onSaveInstanceState(outState)
         contentBinding.mapView.onSaveInstanceState(outState)
     }
+
+
 }
+
+ */

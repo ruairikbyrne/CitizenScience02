@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import ie.wit.citizenscience.R
-
+/*
 class SplashActivity : AppCompatActivity() {
 
     // This is the loading time of the splash screen
@@ -27,3 +27,4 @@ class SplashActivity : AppCompatActivity() {
         }, SPLASH_TIME_OUT)
     }
 }
+*/
