@@ -15,6 +15,11 @@ object SightingManager : SightingStore {
         return sightings
     }
 
+    override fun findById(id:Long) : SightingModel? {
+        val foundSighting: SightingModel? = sightings.find { it.id == id }
+        i("Found Record: $foundSighting")
+        return foundSighting
+    }
     override fun create(sighting: SightingModel) {
         sighting.id = getId()
         sightings.add(sighting)

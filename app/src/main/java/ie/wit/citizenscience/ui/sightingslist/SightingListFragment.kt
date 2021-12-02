@@ -16,13 +16,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ie.wit.citizenscience.R
 //import ie.wit.citizenscience.activities.SightingActivity
 import ie.wit.citizenscience.adapters.SightingAdapter
+import ie.wit.citizenscience.adapters.SightingClickListener
 //import ie.wit.citizenscience.adapters.SightingListener
 import ie.wit.citizenscience.databinding.FragmentSightingListBinding
 import ie.wit.citizenscience.main.MainApp
 import ie.wit.citizenscience.models.SightingModel
 
 
-class SightingListFragment : Fragment() /*SightingListener, MultiplePermissionsListener*/ {
+class SightingListFragment : Fragment(), SightingClickListener /*, MultiplePermissionsListener*/ {
 
 
     private var _fragBinding: FragmentSightingListBinding? = null
@@ -135,7 +136,7 @@ class SightingListFragment : Fragment() /*SightingListener, MultiplePermissionsL
     }
 */
     private fun render(sightingsList: List<SightingModel>) {
-        fragBinding.recyclerView.adapter = SightingAdapter(sightingsList)
+        fragBinding.recyclerView.adapter = SightingAdapter(sightingsList,this)
         if (sightingsList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.sightingsNotFound.visibility = View.VISIBLE
@@ -143,6 +144,11 @@ class SightingListFragment : Fragment() /*SightingListener, MultiplePermissionsL
             fragBinding.recyclerView.visibility = View.VISIBLE
             fragBinding.sightingsNotFound.visibility = View.GONE
         }
+    }
+
+    override fun onSightingClick(sighting: SightingModel) {
+        val action = SightingListFragmentDirections.actionSightingListFragmentToSightingDetailFragment(sighting.id)
+        findNavController().navigate(action)
     }
 
 

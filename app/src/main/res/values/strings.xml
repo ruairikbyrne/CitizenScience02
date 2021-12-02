@@ -31,5 +31,9 @@
 
     <string name="sightingsNotFound">No Sightings Yet...\nClick + below to Add!</string>
     <string name="sightingError">Error : Unable to Create a Sighting...</string>
+    <string name="sightingDetails">Sighting Details</string>
+    <string name="classification">Classification :</string>
+    <string name="species">Species :</string>
+
 
 </resources>

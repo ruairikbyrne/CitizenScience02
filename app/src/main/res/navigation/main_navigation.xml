@@ -14,6 +14,9 @@
             app:destination="@id/sightingFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_sightingListFragment_to_sightingDetailFragment"
+            app:destination="@id/sightingDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/sightingFragment"
@@ -31,5 +34,17 @@
         android:name="ie.wit.citizenscience.fragments.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/sightingDetailFragment"
+        android:name="ie.wit.citizenscience.ui.detail.SightingDetailFragment"
+        android:label="Sighting Details"
+        tools:layout="@layout/fragment_sighting_detail" >
+        <action
+            android:id="@+id/action_sightingDetailFragment_to_sightingListFragment"
+            app:destination="@id/sightingListFragment" />
+        <argument
+            android:name="sightingid"
+            app:argType="long" />
+    </fragment>
 
 </navigation>

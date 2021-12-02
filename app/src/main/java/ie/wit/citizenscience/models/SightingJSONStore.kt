@@ -34,6 +34,11 @@ class SightingJSONStore(private val context: Context) : SightingStore {
         return sightings
     }
 
+    override fun findById(id:Long) : SightingModel? {
+        val foundSighting: SightingModel? = SightingManager.sightings.find { it.id == id }
+        return foundSighting
+    }
+
     override fun create(sighting: SightingModel) {
         sighting.id = generateRandomId()
         sightings.add(sighting)
