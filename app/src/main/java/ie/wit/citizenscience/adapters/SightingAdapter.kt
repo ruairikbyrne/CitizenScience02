@@ -35,9 +35,11 @@ class SightingAdapter constructor(private var sightings: List<SightingModel>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(sighting: SightingModel) {
-            binding.sightingClassification.text = sighting.classification
-            binding.sightingSpecies.text = sighting.species
+            //binding.sightingClassification.text = sighting.classification
+            //binding.sightingSpecies.text = sighting.species
+            binding.sighting = sighting
             Picasso.get().load(sighting.image).resize(200,200).into(binding.imageIcon)
+            binding.executePendingBindings()
 
         }
     }
