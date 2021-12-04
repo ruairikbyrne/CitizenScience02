@@ -130,6 +130,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sightingLocation" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="56dp" />
+
         </LinearLayout>
     </ScrollView>
     </RelativeLayout>

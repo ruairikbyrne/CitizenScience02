@@ -3,6 +3,7 @@
     package="ie.wit.citizenscience">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".main.MainApp"
@@ -31,6 +32,7 @@
             android:name=".activities.MapActivity"
             android:exported="false"
             android:label="@string/title_activity_map" />
+        <!--
         <activity
             android:name=".activities.SightingListActivity"
             android:exported="true" />
@@ -42,6 +44,7 @@
             android:name=".activities.SightingActivity"
             android:exported="true" />
         <activity android:name=".activities.SightingMapsActivity" />
+        -->
     </application>
 
 </manifest>

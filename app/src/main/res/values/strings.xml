@@ -34,6 +34,6 @@
     <string name="sightingDetails">Sighting Details</string>
     <string name="classification">Classification :</string>
     <string name="species">Species :</string>
-
+    <string name="messageDesignationsLoading">Please Wait while the Designations are Loading...</string>
 
 </resources>
