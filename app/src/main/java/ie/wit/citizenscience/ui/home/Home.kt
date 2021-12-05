@@ -1,4 +1,4 @@
-package ie.wit.citizenscience.activities
+package ie.wit.citizenscience.ui.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

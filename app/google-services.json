@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "570239180971",
+    "project_id": "citizenscience02",
+    "storage_bucket": "citizenscience02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570239180971:android:ba8b157e043bb0840e17ee",
+        "android_client_info": {
+          "package_name": "ie.wit.citizenscience"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "570239180971-1b6c7oi6hqjohpdm93tpc218en50edq3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIrIjo4BIafq5Do6c1fg6c7kRE2Sv8qH0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "570239180971-1b6c7oi6hqjohpdm93tpc218en50edq3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
