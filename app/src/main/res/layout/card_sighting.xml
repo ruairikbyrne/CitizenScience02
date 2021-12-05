@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -9,24 +10,26 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:elevation="24dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:padding="16dp">
 
             <ImageView
                 android:id="@+id/imageIcon"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
+                android:layout_width="75dp"
+                android:layout_height="67dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
                 android:contentDescription="@string/button_updateImage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -35,11 +38,14 @@
 
             <TextView
                 android:id="@+id/sightingClassification"
-                android:layout_width="wrap_content"
+                android:layout_width="194dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textAlignment="viewStart"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/imageIcon"
                 android:text="@{sighting.classification}"
+                android:textAlignment="viewStart"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.048"
@@ -51,15 +57,18 @@
                 android:id="@+id/sightingSpecies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textAlignment="viewStart"
+                android:layout_below="@+id/sightingClassification"
+                android:layout_alignStart="@+id/sightingClassification"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="9dp"
                 android:text="@{sighting.species}"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.052"
                 app:layout_constraintStart_toEndOf="@+id/imageIcon"
                 app:layout_constraintTop_toBottomOf="@id/sightingClassification"
                 tools:text="Species" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

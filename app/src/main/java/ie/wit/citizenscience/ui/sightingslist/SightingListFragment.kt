@@ -11,7 +11,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ie.wit.citizenscience.R
 //import ie.wit.citizenscience.activities.SightingActivity
@@ -21,6 +23,7 @@ import ie.wit.citizenscience.adapters.SightingClickListener
 import ie.wit.citizenscience.databinding.FragmentSightingListBinding
 import ie.wit.citizenscience.main.MainApp
 import ie.wit.citizenscience.models.SightingModel
+import ie.wit.citizenscience.utils.SwipeToDeleteCallback
 
 
 class SightingListFragment : Fragment(), SightingClickListener /*, MultiplePermissionsListener*/ {
@@ -56,7 +59,8 @@ class SightingListFragment : Fragment(), SightingClickListener /*, MultiplePermi
         sightingListViewModel = ViewModelProvider(this).get(SightingListViewModel::class.java)
         sightingListViewModel.observableSightingsList.observe(viewLifecycleOwner, Observer {
                 sightings ->
-            sightings?.let { render(sightings) }
+            sightings?.let { render(sightings as ArrayList<SightingModel>) }
+            //checkSwipeRefresh()
         })
 
         val fab: FloatingActionButton = fragBinding.fab
@@ -65,7 +69,15 @@ class SightingListFragment : Fragment(), SightingClickListener /*, MultiplePermi
             findNavController().navigate(action)
         }
 
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = fragBinding.recyclerView.adapter as SightingAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
 
+            }
+        }
+        val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
+        itemTouchDeleteHelper.attachToRecyclerView(fragBinding.recyclerView)
 
         //fragBinding.recyclerView.adapter = SightingAdapter(app.sightings.findAll())
         //loadSightings()
@@ -135,7 +147,7 @@ class SightingListFragment : Fragment(), SightingClickListener /*, MultiplePermi
         fragBinding.recyclerView.adapter?.notifyDataSetChanged()
     }
 */
-    private fun render(sightingsList: List<SightingModel>) {
+    private fun render(sightingsList: ArrayList<SightingModel>) {
         fragBinding.recyclerView.adapter = SightingAdapter(sightingsList,this)
         if (sightingsList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE

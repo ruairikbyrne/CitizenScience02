@@ -11,7 +11,7 @@ interface SightingClickListener {
     fun onSightingClick(sighting: SightingModel)
 }
 
-class SightingAdapter constructor(private var sightings: List<SightingModel>, private val listener: SightingClickListener) :
+class SightingAdapter constructor(private var sightings: ArrayList<SightingModel>, private val listener: SightingClickListener) :
     RecyclerView.Adapter<SightingAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -27,7 +27,10 @@ class SightingAdapter constructor(private var sightings: List<SightingModel>, pr
 
     }
 
-
+    fun removeAt(position: Int) {
+        sightings.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
     override fun getItemCount(): Int = sightings.size
 
@@ -43,6 +46,8 @@ class SightingAdapter constructor(private var sightings: List<SightingModel>, pr
             binding.executePendingBindings()
 
         }
+
+
     }
 
 

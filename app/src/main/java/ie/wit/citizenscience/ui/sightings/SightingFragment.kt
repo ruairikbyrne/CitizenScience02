@@ -5,7 +5,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.ArrayAdapter
+import android.widget.ListAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -45,6 +45,7 @@ class SightingFragment : Fragment() {
     val observableTaxaDesignationList: LiveData<List<TaxaDesignationModel>>
         get() = taxaDesignationList
 
+
     init { load() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +67,8 @@ class SightingFragment : Fragment() {
         sightingViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
                 status -> status?.let { render(status) }
         })
-
+        //val adapter = ListAdapter(this, android.R.layout.simple_spinner_item, observableTaxaDesignationList )
+        //fragBinding.spinner.adapter = adapter
 
 
         activity?.title = getString(R.string.action_add_sighting)
@@ -163,10 +165,9 @@ class SightingFragment : Fragment() {
         try {
             TaxaDesignationManager.findAll(taxaDesignationList)
             i("Retrofit Success : $taxaDesignationList.value")
-        }
-        catch (e: Exception) {
+
+        } catch (e: Exception) {
             i("Retrofit Error : $e.message")
         }
     }
-
 }

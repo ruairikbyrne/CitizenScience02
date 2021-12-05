@@ -5,6 +5,7 @@ interface SightingStore {
     fun findById(id: Long) : SightingModel?
     fun create(sighting: SightingModel)
     fun update(sighting: SightingModel)
+    //fun delete(sighting: SightingModel)
     fun delete(sighting: SightingModel)
 
 }

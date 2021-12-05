@@ -2,6 +2,7 @@ package ie.wit.citizenscience.ui.sightings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import timber.log.Timber
 import timber.log.Timber.i
@@ -19,6 +20,7 @@ class SightingViewModel : ViewModel() {
 
 
 
+
     fun addSighting(sighting: SightingModel) {
         status.value = try {
             SightingManager.create(sighting)
@@ -27,6 +29,8 @@ class SightingViewModel : ViewModel() {
             false
         }
     }
+
+
 
 
 }
