@@ -4,12 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import ie.wit.citizenscience.models.*
 import timber.log.Timber
 import timber.log.Timber.i
-import ie.wit.citizenscience.models.SightingManager
-import ie.wit.citizenscience.models.SightingModel
-import ie.wit.citizenscience.models.TaxaDesignationManager
-import ie.wit.citizenscience.models.TaxaDesignationModel
 
 class SightingViewModel : ViewModel() {
 

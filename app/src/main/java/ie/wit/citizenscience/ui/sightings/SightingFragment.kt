@@ -123,7 +123,7 @@ class SightingFragment : Fragment() {
                     .show()
             } else {
                     //app.sightings.create(sighting.copy())
-                    sightingViewModel.addSighting(SightingModel(classification = classification, species = species))
+                    sightingViewModel.addSighting(SightingModel(classification = classification, species = species, image = sighting.image))
             }
         }
 
@@ -143,6 +143,7 @@ class SightingFragment : Fragment() {
                         if (result.data != null) {
                             i("Got Result ${result.data!!.data}")
                             sighting.image = result.data!!.data!!
+
                             Picasso.get()
                                 .load(sighting.image)
                                 .into(_fragBinding?.sightingImage)
