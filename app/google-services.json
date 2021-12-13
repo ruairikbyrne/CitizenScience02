@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "570239180971",
+    "firebase_url": "https://citizenscience02-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "citizenscience02",
     "storage_bucket": "citizenscience02.appspot.com"
   },

@@ -40,6 +40,7 @@ class SightingAdapter constructor(private var sightings: ArrayList<SightingModel
         fun bind(sighting: SightingModel, listener: SightingClickListener) {
             //binding.sightingClassification.text = sighting.classification
             //binding.sightingSpecies.text = sighting.species
+            binding.root.tag = sighting
             binding.sighting = sighting
             Picasso.get().load(sighting.image).resize(200,200).into(binding.imageIcon)
             binding.root.setOnClickListener { listener.onSightingClick(sighting) }

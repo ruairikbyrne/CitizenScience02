@@ -34,7 +34,7 @@
     <string name="sightingDetails">Sighting Details</string>
     <string name="classification">Classification :</string>
     <string name="species">Species :</string>
-    <string name="messageDesignationsLoading">Please Wait while the Designations are Loading...</string>
+    <string name="messageDataLoading">Please Wait While The Data Loads...</string>
 
     <!--  START Firebase Resources -->
     <string name="label_emailpassword">Email/Password Authentication</string>

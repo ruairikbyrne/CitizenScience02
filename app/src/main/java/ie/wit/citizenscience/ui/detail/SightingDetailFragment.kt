@@ -11,7 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -20,6 +22,8 @@ import ie.wit.citizenscience.databinding.FragmentSightingBinding
 import ie.wit.citizenscience.databinding.FragmentSightingDetailBinding
 import ie.wit.citizenscience.helpers.showImagePicker
 import ie.wit.citizenscience.models.SightingModel
+import ie.wit.citizenscience.ui.auth.LoggedInViewModel
+import ie.wit.citizenscience.ui.sightingslist.SightingListViewModel
 import timber.log.Timber
 
 class SightingDetailFragment : Fragment() {
@@ -28,6 +32,8 @@ class SightingDetailFragment : Fragment() {
     private val args by navArgs<SightingDetailFragmentArgs>()
     private var _fragBinding: FragmentSightingDetailBinding? = null
     private val fragBinding get() = _fragBinding!!
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+    private val sightingListViewModel : SightingListViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -43,7 +49,22 @@ class SightingDetailFragment : Fragment() {
         _fragBinding = FragmentSightingDetailBinding.inflate(inflater, container, false)
         val root = fragBinding.root
 
+        fragBinding.editSightingButton.setOnClickListener {
+            detailViewModel.updateSighting(loggedInViewModel.liveFirebaseUser.value?.uid!!,
+                args.sightingid, fragBinding.sightingvm?.observableSighting!!.value!!)
+            findNavController().navigateUp()
+        }
+
+        fragBinding.deleteSightingButton.setOnClickListener {
+            sightingListViewModel.delete(loggedInViewModel.liveFirebaseUser.value?.uid!!,
+                detailViewModel.observableSighting.value?.uid!!)
+            findNavController().navigateUp()
+        }
+
+
+
         detailViewModel = ViewModelProvider(this).get(SightingDetailViewModel::class.java)
+
         detailViewModel.observableSighting.observe(viewLifecycleOwner, Observer { render() })
         return root
     }
@@ -51,11 +72,13 @@ class SightingDetailFragment : Fragment() {
     private fun render(/*sighting: SightingModel*/) {
 
         fragBinding.sightingvm = detailViewModel
+
     }
 
     override fun onResume() {
         super.onResume()
-        detailViewModel.getSighting(args.sightingid)
+        detailViewModel.getSighting(loggedInViewModel.liveFirebaseUser.value?.uid!!,
+            args.sightingid)
     }
 
     override fun onDestroyView() {

@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
@@ -26,6 +27,7 @@ import ie.wit.citizenscience.main.MainApp
 import ie.wit.citizenscience.models.SightingModel
 import ie.wit.citizenscience.models.TaxaDesignationManager
 import ie.wit.citizenscience.models.TaxaDesignationModel
+import ie.wit.citizenscience.ui.auth.LoggedInViewModel
 import timber.log.Timber
 import timber.log.Timber.i
 
@@ -38,6 +40,7 @@ class SightingFragment : Fragment() {
     var sighting = SightingModel()
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var sightingViewModel: SightingViewModel
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
 
     private val taxaDesignationList =
         MutableLiveData<List<TaxaDesignationModel>>()
@@ -123,7 +126,10 @@ class SightingFragment : Fragment() {
                     .show()
             } else {
                     //app.sightings.create(sighting.copy())
-                    sightingViewModel.addSighting(SightingModel(classification = classification, species = species, image = sighting.image))
+                    //sightingViewModel.addSighting(loggedInViewModel.liveFirebaseUser, SightingModel(classification = classification, species = species,  image = sighting.image,
+                    //email = loggedInViewModel.liveFirebaseUser.value?.email!!))
+                sightingViewModel.addSighting(loggedInViewModel.liveFirebaseUser, SightingModel(classification = classification, species = species,
+                    email = loggedInViewModel.liveFirebaseUser.value?.email!!))
             }
         }
 

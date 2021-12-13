@@ -44,7 +44,7 @@
             app:destination="@id/sightingListFragment" />
         <argument
             android:name="sightingid"
-            app:argType="long" />
+            app:argType="string" />
     </fragment>
 
 </navigation>
