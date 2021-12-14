@@ -11,14 +11,14 @@ interface SightingClickListener {
     fun onSightingClick(sighting: SightingModel)
 }
 
-class SightingAdapter constructor(private var sightings: ArrayList<SightingModel>, private val listener: SightingClickListener) :
+class SightingAdapter constructor(private var sightings: ArrayList<SightingModel>, private val listener: SightingClickListener, private val readOnly: Boolean) :
     RecyclerView.Adapter<SightingAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardSightingBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return MainHolder(binding)
+        return MainHolder(binding, readOnly)
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
@@ -35,7 +35,9 @@ class SightingAdapter constructor(private var sightings: ArrayList<SightingModel
     override fun getItemCount(): Int = sightings.size
 
 
-    inner class MainHolder(val binding : CardSightingBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MainHolder(val binding : CardSightingBinding, private val readOnly: Boolean) : RecyclerView.ViewHolder(binding.root) {
+
+        val readOnlyRow = readOnly
 
         fun bind(sighting: SightingModel, listener: SightingClickListener) {
             //binding.sightingClassification.text = sighting.classification

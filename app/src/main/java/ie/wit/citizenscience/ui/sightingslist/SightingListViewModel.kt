@@ -15,6 +15,7 @@ class SightingListViewModel : ViewModel() {
 
 
     private val sightingsList = MutableLiveData<List<SightingModel>>()
+    var readOnly = MutableLiveData(false)
 
 
     val observableSightingsList: LiveData<List<SightingModel>>
@@ -32,6 +33,7 @@ class SightingListViewModel : ViewModel() {
         try {
             Timber.i("Trying to call firebase findall, userid : ${liveFirebaseUser.value?.uid!!}")
             //sightingsList.value = SightingManager.findAll()
+            readOnly.value = false
             FirebaseDBManager.findAll(liveFirebaseUser.value?.uid!!, sightingsList)
             Timber.i("Report Load Success : ${sightingsList.value.toString()}")
         }
@@ -39,6 +41,17 @@ class SightingListViewModel : ViewModel() {
             Timber.i("List Sighting Report Load Error : $e.message")
         }
 
+    }
+
+    fun loadAll() {
+        try {
+            readOnly.value = true
+            FirebaseDBManager.findAll(sightingsList)
+            Timber.i("Report LoadAll Success : ${sightingsList.value.toString()}")
+        }
+        catch (e: Exception) {
+            Timber.i("Report LoadAll Error : $e.message")
+        }
     }
 
     fun delete(userid: String, id: String) {

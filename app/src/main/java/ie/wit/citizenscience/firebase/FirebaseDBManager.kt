@@ -13,7 +13,25 @@ object FirebaseDBManager : SightingStore {
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     override fun findAll(sightingsList: MutableLiveData<List<SightingModel>>) {
-        TODO("Not yet implemented")
+        database.child("sightings")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase Sighting error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<SightingModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        val donation = it.getValue(SightingModel::class.java)
+                        localList.add(donation!!)
+                    }
+                    database.child("sightings")
+                        .removeEventListener(this)
+
+                    sightingsList.value = localList
+                }
+            })
     }
 
     override fun findAll(userid: String, sightingsList: MutableLiveData<List<SightingModel>>) {

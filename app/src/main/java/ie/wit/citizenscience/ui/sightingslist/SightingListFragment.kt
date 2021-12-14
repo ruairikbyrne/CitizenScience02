@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -148,6 +149,17 @@ class SightingListFragment : Fragment(), SightingClickListener /*, MultiplePermi
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_sightinglist, menu)
+
+        val item = menu.findItem(R.id.toggleSightings) as MenuItem
+        item.setActionView(R.layout.togglebutton_layout)
+        val toggleSightings: SwitchCompat = item.actionView.findViewById(R.id.toggleButton)
+        toggleSightings.isChecked = false
+
+        toggleSightings.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) sightingListViewModel.loadAll()
+            else sightingListViewModel.load()
+        }
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -191,8 +203,11 @@ class SightingListFragment : Fragment(), SightingClickListener /*, MultiplePermi
     fun setSwipeRefresh() {
         fragBinding.swiperefresh.setOnRefreshListener {
             fragBinding.swiperefresh.isRefreshing = true
-            showLoader(loader,"Downloading Donations")
-            sightingListViewModel.load()
+            showLoader(loader,"Downloading Sightings")
+            if(sightingListViewModel.readOnly.value!!)
+                sightingListViewModel.loadAll()
+            else
+                sightingListViewModel.load()
         }
     }
 
@@ -202,7 +217,7 @@ class SightingListFragment : Fragment(), SightingClickListener /*, MultiplePermi
     }
 
     private fun render(sightingsList: ArrayList<SightingModel>) {
-        fragBinding.recyclerView.adapter = SightingAdapter(sightingsList,this)
+        fragBinding.recyclerView.adapter = SightingAdapter(sightingsList,this, sightingListViewModel.readOnly.value!!)
         if (sightingsList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.sightingsNotFound.visibility = View.VISIBLE
@@ -214,7 +229,8 @@ class SightingListFragment : Fragment(), SightingClickListener /*, MultiplePermi
 
     override fun onSightingClick(sighting: SightingModel) {
         val action = SightingListFragmentDirections.actionSightingListFragmentToSightingDetailFragment(sighting.uid!!)
-        findNavController().navigate(action)
+        if(!sightingListViewModel.readOnly.value!!)
+            findNavController().navigate(action)
     }
 
 
