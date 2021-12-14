@@ -21,9 +21,11 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import ie.wit.citizenscience.R
+import ie.wit.citizenscience.activities.MapActivity
 import ie.wit.citizenscience.databinding.FragmentSightingBinding
 import ie.wit.citizenscience.helpers.showImagePicker
 import ie.wit.citizenscience.main.MainApp
+import ie.wit.citizenscience.models.Location
 import ie.wit.citizenscience.models.SightingModel
 import ie.wit.citizenscience.models.TaxaDesignationManager
 import ie.wit.citizenscience.models.TaxaDesignationModel
@@ -39,6 +41,7 @@ class SightingFragment : Fragment() {
     private val fragBinding get() = _fragBinding!!
     var sighting = SightingModel()
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var sightingViewModel: SightingViewModel
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
 
@@ -78,6 +81,7 @@ class SightingFragment : Fragment() {
 
         setButtonListener(fragBinding)
         registerImagePickerCallback()
+        registerMapCallback()
         return root
     }
 
@@ -128,7 +132,7 @@ class SightingFragment : Fragment() {
                     //app.sightings.create(sighting.copy())
                     //sightingViewModel.addSighting(loggedInViewModel.liveFirebaseUser, SightingModel(classification = classification, species = species,  image = sighting.image,
                     //email = loggedInViewModel.liveFirebaseUser.value?.email!!))
-                sightingViewModel.addSighting(loggedInViewModel.liveFirebaseUser, SightingModel(classification = classification, species = species,
+                sightingViewModel.addSighting(loggedInViewModel.liveFirebaseUser, SightingModel(classification = classification, species = species, lat = sighting.lat, lng = sighting.lng, zoom = sighting.zoom,
                     email = loggedInViewModel.liveFirebaseUser.value?.email!!))
             }
         }
@@ -138,8 +142,46 @@ class SightingFragment : Fragment() {
             Timber.i("Select image")
         }
 
+        layout.sightingLocation.setOnClickListener {
+            i ("Set Location Pressed")
+            val location = Location(52.292, -6.497, 16f)
+            if (sighting.zoom != 0f) {
+                location.lat =  sighting.lat
+                location.lng = sighting.lng
+                location.zoom = sighting.zoom
+            }
+            val launcherIntent = Intent(context, MapActivity::class.java)
+                .putExtra("location", location)
+            mapIntentLauncher.launch(launcherIntent)
+            //startActivity(launcherIntent)
+
+
+            //val intent = Intent(context, MapActivity::class.java)
+            //startActivity(intent)
+        }
+
+
     }
 
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when (result.resultCode) {
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Location ${result.data.toString()}")
+                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
+                            i("Location == $location")
+                            sighting.lat = location.lat
+                            sighting.lng = location.lng
+                            sighting.zoom = location.zoom
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
+    }
     private fun registerImagePickerCallback() {
         imageIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
