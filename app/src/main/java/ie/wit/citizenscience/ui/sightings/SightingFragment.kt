@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +24,9 @@ import com.squareup.picasso.Picasso
 import ie.wit.citizenscience.R
 import ie.wit.citizenscience.activities.MapActivity
 import ie.wit.citizenscience.databinding.FragmentSightingBinding
+import ie.wit.citizenscience.firebase.FirebaseImageManager
+import ie.wit.citizenscience.helpers.customTransformation
+import ie.wit.citizenscience.helpers.readImageUri
 import ie.wit.citizenscience.helpers.showImagePicker
 import ie.wit.citizenscience.main.MainApp
 import ie.wit.citizenscience.models.Location
@@ -132,7 +136,8 @@ class SightingFragment : Fragment() {
                     //app.sightings.create(sighting.copy())
                     //sightingViewModel.addSighting(loggedInViewModel.liveFirebaseUser, SightingModel(classification = classification, species = species,  image = sighting.image,
                     //email = loggedInViewModel.liveFirebaseUser.value?.email!!))
-                sightingViewModel.addSighting(loggedInViewModel.liveFirebaseUser, SightingModel(classification = classification, species = species, lat = sighting.lat, lng = sighting.lng, zoom = sighting.zoom,
+                sightingViewModel.addSighting(loggedInViewModel.liveFirebaseUser, SightingModel(classification = classification, species = species,
+                    lat = sighting.lat, lng = sighting.lng, zoom = sighting.zoom,
                     email = loggedInViewModel.liveFirebaseUser.value?.email!!))
             }
         }
@@ -190,11 +195,25 @@ class SightingFragment : Fragment() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Result ${result.data!!.data}")
-                            sighting.image = result.data!!.data!!
+                            _fragBinding?.sightingImage?.let {
+                                FirebaseImageManager
+                                    //.updateSightingImage(loggedInViewModel.liveFirebaseUser.value!!.uid,
+                                    .updateSightingImage(sighting.uid!!,
+                                        readImageUri(result.resultCode, result.data),
+                                        it,
+                                        true)
+                            }
+/*
+                            i("Got Result ${result.data!!.data}")
+                            sighting.image = result.data!!.data!!.toString()
 
                             Picasso.get()
-                                .load(sighting.image)
+                                //.load(sighting.image)
+                                .load(sighting.image.toUri())
+                                .transform(customTransformation())
                                 .into(_fragBinding?.sightingImage)
+
+*/
                             //binding.chooseImage.setText((R.string.button_updateImage))
                         } // end of if
                     }

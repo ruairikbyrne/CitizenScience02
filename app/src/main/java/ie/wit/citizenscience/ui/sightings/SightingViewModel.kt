@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
 import ie.wit.citizenscience.firebase.FirebaseDBManager
+import ie.wit.citizenscience.firebase.FirebaseImageManager
 import ie.wit.citizenscience.main.MainApp
 import ie.wit.citizenscience.models.*
 import timber.log.Timber
@@ -27,6 +28,9 @@ class SightingViewModel : ViewModel() {
         status.value = try {
 
             //SightingManager.create(sighting)
+
+            sighting.image = FirebaseImageManager.imageUri.value.toString()
+            i("Hit add sighting")
             FirebaseDBManager.create(firebaseUser, sighting)
             true
         } catch (e: IllegalArgumentException) {

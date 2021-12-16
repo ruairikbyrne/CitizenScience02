@@ -2,9 +2,11 @@ package ie.wit.citizenscience.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ie.wit.citizenscience.databinding.CardSightingBinding
+import ie.wit.citizenscience.helpers.customTransformation
 import ie.wit.citizenscience.models.SightingModel
 
 interface SightingClickListener {
@@ -44,7 +46,11 @@ class SightingAdapter constructor(private var sightings: ArrayList<SightingModel
             //binding.sightingSpecies.text = sighting.species
             binding.root.tag = sighting
             binding.sighting = sighting
-            Picasso.get().load(sighting.image).resize(200,200).into(binding.imageIcon)
+            Picasso.get().load(sighting.image.toUri())
+                .resize(200,200)
+                .transform(customTransformation())
+                .centerCrop()
+                .into(binding.imageIcon)
             binding.root.setOnClickListener { listener.onSightingClick(sighting) }
             binding.executePendingBindings()
 
