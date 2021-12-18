@@ -16,6 +16,7 @@
     <string name="sighting_classification_placeholder">Sighting Classification</string>
     <string name="sighting_species_placeholder">Sighting Species</string>
     <string name="action_reported_sightings">Reported Sightings</string>
+    <string name="action_reported_sightings_map">Reported Sightings Map</string>
     <string name="action_add_sighting">Add Sighting</string>
     <string name="action_search">Search</string>
     <string name="image_sighting">Sighting Image</string>

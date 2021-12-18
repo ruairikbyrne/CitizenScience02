@@ -19,6 +19,7 @@ import ie.wit.citizenscience.databinding.NavHeaderBinding
 import ie.wit.citizenscience.helpers.customTransformation
 import ie.wit.citizenscience.ui.auth.LoggedInViewModel
 import ie.wit.citizenscience.ui.auth.Login
+import ie.wit.citizenscience.ui.sightingmap.SightingMapFragment
 import timber.log.Timber.i
 
 class Home : AppCompatActivity() {
@@ -97,5 +98,11 @@ class Home : AppCompatActivity() {
         val intent = Intent(this, Login::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
+    }
+
+    internal fun onOpenMap(){
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, SightingMapFragment())
+            .commitNow()
     }
 }
