@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.squareup.picasso.Picasso
 import ie.wit.citizenscience.firebase.FirebaseDBManager
+import ie.wit.citizenscience.firebase.FirebaseImageManager
 import ie.wit.citizenscience.models.SightingManager
 import ie.wit.citizenscience.models.SightingModel
 import timber.log.Timber
@@ -32,6 +33,7 @@ class SightingDetailViewModel : ViewModel() {
 
     fun updateSighting(userid:String, id: String, sighting: SightingModel) {
         try {
+            sighting.image = FirebaseImageManager.imageUri.value.toString()
             FirebaseDBManager.update(userid, id, sighting)
             Timber.i("Record id : $id")
             Timber.i("Detail update() Success : $sighting")

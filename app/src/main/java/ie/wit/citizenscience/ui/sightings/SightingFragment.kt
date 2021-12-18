@@ -221,6 +221,7 @@ class SightingFragment : Fragment() {
                 }
             }
     }
+
     companion object {
         @JvmStatic
         fun newInstance() =

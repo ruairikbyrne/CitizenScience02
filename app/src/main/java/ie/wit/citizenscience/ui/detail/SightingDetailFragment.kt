@@ -20,6 +20,8 @@ import com.squareup.picasso.Picasso
 import ie.wit.citizenscience.R
 import ie.wit.citizenscience.databinding.FragmentSightingBinding
 import ie.wit.citizenscience.databinding.FragmentSightingDetailBinding
+import ie.wit.citizenscience.firebase.FirebaseImageManager
+import ie.wit.citizenscience.helpers.readImageUri
 import ie.wit.citizenscience.helpers.showImagePicker
 import ie.wit.citizenscience.models.SightingModel
 import ie.wit.citizenscience.ui.auth.LoggedInViewModel
@@ -34,6 +36,8 @@ class SightingDetailFragment : Fragment() {
     private val fragBinding get() = _fragBinding!!
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
     private val sightingListViewModel : SightingListViewModel by activityViewModels()
+    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    var sighting = SightingModel()
 
 
     override fun onCreateView(
@@ -61,13 +65,21 @@ class SightingDetailFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-
+        fragBinding.updateImage.setOnClickListener {
+            showImagePicker(imageIntentLauncher)
+                    Timber.i("Select image")
+        }
 
         detailViewModel = ViewModelProvider(this).get(SightingDetailViewModel::class.java)
 
         detailViewModel.observableSighting.observe(viewLifecycleOwner, Observer { render() })
+
+        registerImagePickerCallback()
+
         return root
     }
+
+
 
     private fun render(/*sighting: SightingModel*/) {
 
@@ -86,5 +98,39 @@ class SightingDetailFragment : Fragment() {
         _fragBinding = null
     }
 
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    Activity.RESULT_OK -> {
+                        if (result.data != null) {
+                            Timber.i("Got Result ${result.data!!.data}")
+                            _fragBinding?.sightingImage?.let {
+                                FirebaseImageManager
+                                    //.updateSightingImage(loggedInViewModel.liveFirebaseUser.value!!.uid,
+                                    .updateSightingImage(sighting.uid!!,
+                                        readImageUri(result.resultCode, result.data),
+                                        it,
+                                        true)
+                            }
+/*
+                            i("Got Result ${result.data!!.data}")
+                            sighting.image = result.data!!.data!!.toString()
+
+                            Picasso.get()
+                                //.load(sighting.image)
+                                .load(sighting.image.toUri())
+                                .transform(customTransformation())
+                                .into(_fragBinding?.sightingImage)
+
+*/
+                            //binding.chooseImage.setText((R.string.button_updateImage))
+                        } // end of if
+                    }
+                    Activity.RESULT_CANCELED -> { } else -> { }
+                }
+            }
+    }
 
 }
