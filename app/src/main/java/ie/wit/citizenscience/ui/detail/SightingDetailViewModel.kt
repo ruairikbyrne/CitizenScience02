@@ -1,8 +1,12 @@
 package ie.wit.citizenscience.ui.detail
 
+import android.widget.ImageView
+import androidx.core.net.toUri
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.squareup.picasso.Picasso
 import ie.wit.citizenscience.firebase.FirebaseDBManager
 import ie.wit.citizenscience.models.SightingManager
 import ie.wit.citizenscience.models.SightingModel
@@ -36,4 +40,6 @@ class SightingDetailViewModel : ViewModel() {
             Timber.i("Detail update() Error : $e.message")
         }
     }
+
+
 }

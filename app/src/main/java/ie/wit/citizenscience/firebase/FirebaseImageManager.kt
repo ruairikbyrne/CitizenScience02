@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
+import androidx.core.net.toUri
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
@@ -69,8 +71,7 @@ object FirebaseImageManager {
 
     fun updateSightingImage(userid: String, imageUri : Uri?, imageView: ImageView, updating : Boolean) {
         Picasso.get().load(imageUri)
-            .resize(200, 200)
-            .transform(customTransformation())
+            .resize(600, 600)
             .memoryPolicy(MemoryPolicy.NO_CACHE)
             .centerCrop()
             .into(object : Target {
@@ -114,5 +115,7 @@ object FirebaseImageManager {
                 override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
             })
     }
+
+
 
 }

@@ -1,8 +1,11 @@
 package ie.wit.citizenscience.adapters
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.net.toUri
+import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ie.wit.citizenscience.databinding.CardSightingBinding
@@ -58,6 +61,9 @@ class SightingAdapter constructor(private var sightings: ArrayList<SightingModel
 
 
     }
+
+
+
 
 
 }

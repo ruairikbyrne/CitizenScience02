@@ -4,10 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
+import androidx.core.net.toUri
+import androidx.databinding.BindingAdapter
 import ie.wit.citizenscience.R
 import com.squareup.picasso.Transformation
 import com.makeramen.roundedimageview.RoundedTransformationBuilder
+import com.squareup.picasso.Picasso
 import java.io.IOException
 
 fun showImagePicker(intentLauncher : ActivityResultLauncher<Intent>) {
@@ -35,3 +39,5 @@ fun customTransformation() : Transformation =
         .cornerRadiusDp(35F)
         .oval(false)
         .build()
+
+
