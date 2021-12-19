@@ -2,20 +2,21 @@ package ie.wit.citizenscience.ui.sightingmap
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
 import ie.wit.citizenscience.firebase.FirebaseDBManager
 import ie.wit.citizenscience.models.SightingModel
 
 import timber.log.Timber
 
-class SightingMapViewModel {
+class SightingMapViewModel : ViewModel() {
 
-    private val sightingsList = MutableLiveData<List<SightingModel>>()
+    private val sightingsMapList = MutableLiveData<List<SightingModel>>()
     var readOnly = MutableLiveData(false)
 
 
-    val observableSightingsList: LiveData<List<SightingModel>>
-        get() = sightingsList
+    val observableSightingsMapList: LiveData<List<SightingModel>>
+        get() = sightingsMapList
 
     var liveFirebaseUser = MutableLiveData<FirebaseUser>()
 
@@ -30,11 +31,11 @@ class SightingMapViewModel {
             Timber.i("Trying to call firebase findall, userid : ${liveFirebaseUser.value?.uid!!}")
             //sightingsList.value = SightingManager.findAll()
             readOnly.value = false
-            FirebaseDBManager.findAll(liveFirebaseUser.value?.uid!!, sightingsList)
-            Timber.i("Report Load Success : ${sightingsList.value.toString()}")
+            FirebaseDBManager.findAll(liveFirebaseUser.value?.uid!!, sightingsMapList)
+            Timber.i("Map User Sightings Load Success : ${sightingsMapList.value.toString()}")
         }
         catch (e: Exception) {
-            Timber.i("List Sighting Report Load Error : $e.message")
+            Timber.i("Map User Sightings Load Error : $e.message")
         }
 
     }
@@ -42,11 +43,11 @@ class SightingMapViewModel {
     fun loadAll() {
         try {
             readOnly.value = true
-            FirebaseDBManager.findAll(sightingsList)
-            Timber.i("Report LoadAll Success : ${sightingsList.value.toString()}")
+            FirebaseDBManager.findAll(sightingsMapList)
+            Timber.i("Map Load All Sightings Success : ${sightingsMapList.value.toString()}")
         }
         catch (e: Exception) {
-            Timber.i("Report LoadAll Error : $e.message")
+            Timber.i("Map Load All Sightings Error : $e.message")
         }
     }
 

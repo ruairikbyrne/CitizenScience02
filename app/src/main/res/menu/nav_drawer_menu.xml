@@ -13,7 +13,7 @@
             android:icon="@drawable/ic_menu_sighting_list"
             android:title="@string/action_reported_sightings" />
         <item
-            android:id="@+id/sightingMapFragment"
+            android:id="@+id/sightingMapFragment2"
             android:icon="@drawable/ic_menu_sighting_map"
             android:title="@string/action_reported_sightings_map" />
 

@@ -3,12 +3,13 @@ package ie.wit.citizenscience.ui.sightingmap
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.view.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -33,10 +34,10 @@ class SightingMapFragment : Fragment() {
     private val fragBinding get() = _fragBinding!!
     private lateinit var mMap: GoogleMap
     private var mapReady = false
-    private val sightingListViewModel: SightingListViewModel by activityViewModels()
+    private val sightingMapViewModel: SightingMapViewModel by activityViewModels()
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
-    lateinit var loader : AlertDialog
-    private lateinit var sightings: List<SightingModel>
+    private lateinit var loader : AlertDialog
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +57,14 @@ class SightingMapFragment : Fragment() {
         val root = fragBinding.root
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
 
-        sightingListViewModel.observableSightingsList.observe(viewLifecycleOwner, Observer { sightings ->
-            this.sightings = sightings
-                updateMap()
+        activity?.title = getString(R.string.action_reported_sightings_map)
+        sightingMapViewModel.observableSightingsMapList.observe(viewLifecycleOwner, Observer { sightings ->
+            sightings?.let {
+                updateMap(sightings as ArrayList<SightingModel>)
+                hideLoader(loader)
+            }
+            //this.sightings = sightings
+                //updateMap()
                 //hideLoader(loader)
                 //checkSwipeRefresh()
             }
@@ -67,9 +73,9 @@ class SightingMapFragment : Fragment() {
             mapFragment.getMapAsync { googleMap ->
                 mMap = googleMap
                 mapReady = true
-                updateMap()
+                //updateMap(sightings as ArrayList<SightingModel>)
             }
-            //loader = createLoader(requireActivity())
+            loader = createLoader(requireActivity())
             //activity?.title = getString(R.string.action_reported_sightings)
 
 
@@ -77,7 +83,30 @@ class SightingMapFragment : Fragment() {
         }
 
 
-    private fun updateMap() {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_sightinglist, menu)
+
+        val item = menu.findItem(R.id.toggleSightings) as MenuItem
+        item.setActionView(R.layout.togglebutton_layout)
+        val toggleSightings: SwitchCompat = item.actionView.findViewById(R.id.toggleButton)
+        toggleSightings.isChecked = false
+
+        toggleSightings.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) sightingMapViewModel.loadAll()
+            else sightingMapViewModel.load()
+
+        }
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item,
+            requireView().findNavController()) || super.onOptionsItemSelected(item)
+    }
+
+    private fun updateMap(sightings: ArrayList<SightingModel>) {
+        mMap.clear()
         if (mapReady && sightings != null) {
             sightings.forEach { sighting ->
                 //if (!sighting.lat.isEmpty() && !sighting.lng.IsEmpty()) {
@@ -100,8 +129,8 @@ class SightingMapFragment : Fragment() {
         showLoader(loader,"Downloading Sightings")
         loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
             if (firebaseUser != null) {
-                sightingListViewModel.liveFirebaseUser.value = firebaseUser
-                sightingListViewModel.load()
+                sightingMapViewModel.liveFirebaseUser.value = firebaseUser
+                sightingMapViewModel.load()
             }
         })
     }

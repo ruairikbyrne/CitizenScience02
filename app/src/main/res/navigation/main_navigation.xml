@@ -47,8 +47,8 @@
     <fragment
         android:id="@+id/sightingMapFragment2"
         android:name="ie.wit.citizenscience.ui.sightingmap.SightingMapFragment"
-        android:label="fragment_sighting_map"
-        tools:layout="@layout/fragment_sighting_map" >
+        android:label="Sighting Map View"
+        tools:layout="@layout/fragment_sighting_map">
         <action
             android:id="@+id/action_sightingMapFragment2_to_sightingListFragment"
             app:destination="@id/sightingListFragment" />
