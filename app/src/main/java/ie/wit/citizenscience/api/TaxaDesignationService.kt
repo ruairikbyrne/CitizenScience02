@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface TaxaDesignationService {
     @GET("/api/taxonGroup/lookupInput?search=")
-    fun getall(): Call<List<TaxaDesignationModel>>
+    fun getall(): Call<ArrayList<TaxaDesignationModel>>
 }

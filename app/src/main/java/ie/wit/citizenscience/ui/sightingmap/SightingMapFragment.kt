@@ -63,20 +63,16 @@ class SightingMapFragment : Fragment() {
                 updateMap(sightings as ArrayList<SightingModel>)
                 hideLoader(loader)
             }
-            //this.sightings = sightings
-                //updateMap()
-                //hideLoader(loader)
-                //checkSwipeRefresh()
-            }
 
-        )
+        })
+
             mapFragment.getMapAsync { googleMap ->
                 mMap = googleMap
                 mapReady = true
                 //updateMap(sightings as ArrayList<SightingModel>)
             }
             loader = createLoader(requireActivity())
-            //activity?.title = getString(R.string.action_reported_sightings)
+
 
 
             return root
@@ -109,7 +105,6 @@ class SightingMapFragment : Fragment() {
         mMap.clear()
         if (mapReady && sightings != null) {
             sightings.forEach { sighting ->
-                //if (!sighting.lat.isEmpty() && !sighting.lng.IsEmpty()) {
                     val loc = LatLng(sighting.lat, sighting.lng)
                     val options =
                         MarkerOptions().title(sighting.classification).snippet(sighting.species)
@@ -117,7 +112,6 @@ class SightingMapFragment : Fragment() {
                     //map.addMarker(options).tag = it.id
                     mMap.addMarker(options).tag = sighting.image
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, sighting.zoom))
-                //}
 
             }
         }

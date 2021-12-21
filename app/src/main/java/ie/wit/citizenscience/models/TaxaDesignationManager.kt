@@ -9,22 +9,26 @@ import timber.log.Timber
 
 
 object TaxaDesignationManager : TaxaDesignationStore {
-    val taxaDesignations = ArrayList<TaxaDesignationModel>()
+    //val taxaDesignations = ArrayList<TaxaDesignationModel>()
 
-    override fun findAll(taxaDesignationList: MutableLiveData<List<TaxaDesignationModel>>) {
+    override fun findAll(taxaDesignationList: MutableLiveData<ArrayList<TaxaDesignationModel>>) {
 
         val call = TaxaDesignationClient.getApi().getall()
 
 
-        call.enqueue(object : Callback<List<TaxaDesignationModel>> {
-            override fun onResponse(call: Call<List<TaxaDesignationModel>>,
-                                    response: Response<List<TaxaDesignationModel>>
+        call.enqueue(object : Callback<ArrayList<TaxaDesignationModel>> {
+            override fun onResponse(call: Call<ArrayList<TaxaDesignationModel>>,
+                                    response: Response<ArrayList<TaxaDesignationModel>>
             ) {
+
                 taxaDesignationList.value = response.body() as ArrayList<TaxaDesignationModel>
+
                 Timber.i("Retrofit JSON = ${response.body()}")
+                val returnedValue = taxaDesignationList.value?.map { it.name }
+                Timber.i("Manager Item list: $returnedValue")
             }
 
-            override fun onFailure(call: Call<List<TaxaDesignationModel>>, t: Throwable) {
+            override fun onFailure(call: Call<ArrayList<TaxaDesignationModel>>, t: Throwable) {
                 Timber.i("Retrofit Error : $t.message")
             }
         })

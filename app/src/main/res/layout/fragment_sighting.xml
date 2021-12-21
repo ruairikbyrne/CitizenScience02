@@ -134,7 +134,8 @@
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
-                android:layout_height="56dp" />
+                android:layout_height="56dp"
+                android:spinnerMode="dropdown"/>
 
         </LinearLayout>
     </ScrollView>

@@ -21,8 +21,17 @@ class SightingViewModel : ViewModel() {
         val observableStatus: LiveData<Boolean>
         get() = status
 
+    private val taxaDesignationList = MutableLiveData<ArrayList<TaxaDesignationModel>>()
 
 
+
+
+    val observableTaxaDesignationList: LiveData<ArrayList<TaxaDesignationModel>>
+        get() = taxaDesignationList
+
+    init {
+        loadClassification()
+    }
 
     fun addSighting(firebaseUser: MutableLiveData<FirebaseUser>, sighting: SightingModel) {
         status.value = try {
@@ -39,6 +48,16 @@ class SightingViewModel : ViewModel() {
     }
 
 
+
+    fun loadClassification() {
+        try {
+            TaxaDesignationManager.findAll(taxaDesignationList)
+            i("Retrofit Success : $taxaDesignationList")
+
+        } catch (e: Exception) {
+            i("Retrofit Error : $e.message")
+        }
+    }
 
 
 }

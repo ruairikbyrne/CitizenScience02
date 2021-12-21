@@ -13,18 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CitizenScience">
-        <!--
-        <activity
-            android:name=".activities.Home"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        -->
         <activity android:name=".ui.auth.Login" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -40,22 +29,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.MapActivity"
+            android:name=".ui.mapactivity.MapActivity"
             android:exported="false"
             android:label="@string/title_activity_map" />
-        <!--
-        <activity
-            android:name=".activities.SightingListActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activities.SplashActivity"
-            android:exported="false"
-            android:theme="@style/Theme.CitizenScience.NoActionBar" />
-        <activity
-            android:name=".activities.SightingActivity"
-            android:exported="true" />
-        <activity android:name=".activities.SightingMapsActivity" />
-        -->
+
     </application>
 
 </manifest>

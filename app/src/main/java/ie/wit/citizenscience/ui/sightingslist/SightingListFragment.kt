@@ -6,9 +6,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
@@ -30,8 +28,8 @@ import ie.wit.citizenscience.helpers.showLoader
 import ie.wit.citizenscience.main.MainApp
 import ie.wit.citizenscience.models.SightingModel
 import ie.wit.citizenscience.ui.auth.LoggedInViewModel
-import ie.wit.citizenscience.utils.SwipeToDeleteCallback
-import ie.wit.citizenscience.utils.SwipeToEditCallback
+import ie.wit.citizenscience.helpers.SwipeToDeleteCallback
+import ie.wit.citizenscience.helpers.SwipeToEditCallback
 
 
 class SightingListFragment : Fragment(), SightingClickListener /*, MultiplePermissionsListener*/ {
@@ -191,14 +189,18 @@ class SightingListFragment : Fragment(), SightingClickListener /*, MultiplePermi
     }
 
     private fun loadSightings() {
-        showSightings(app.sightings.findAll())
+        //showSightings(app.sightings.findAll())
+        showSightings(sightingListViewModel.findAll())
     }
 
     fun showSightings (sightings: List<SightingModel>) {
         fragBinding.recyclerView.adapter = SightingAdapter(sightings, this)
         fragBinding.recyclerView.adapter?.notifyDataSetChanged()
     }
+
+
 */
+
 
     fun setSwipeRefresh() {
         fragBinding.swiperefresh.setOnRefreshListener {

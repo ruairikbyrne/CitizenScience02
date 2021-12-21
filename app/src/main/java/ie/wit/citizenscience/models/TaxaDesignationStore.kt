@@ -5,5 +5,5 @@ import androidx.lifecycle.MutableLiveData
 
 
 interface TaxaDesignationStore {
-    fun findAll(taxaDesignationList: MutableLiveData<List<TaxaDesignationModel>>)
+    fun findAll(taxaDesignationList: MutableLiveData<ArrayList<TaxaDesignationModel>>)
 }

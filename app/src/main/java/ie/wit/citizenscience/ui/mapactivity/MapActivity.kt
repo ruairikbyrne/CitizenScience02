@@ -1,4 +1,4 @@
-package ie.wit.citizenscience.activities
+package ie.wit.citizenscience.ui.mapactivity
 
 import android.app.Activity
 import android.content.Intent

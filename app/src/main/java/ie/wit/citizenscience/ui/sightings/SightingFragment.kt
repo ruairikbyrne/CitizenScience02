@@ -5,27 +5,20 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.ListAdapter
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
-import com.squareup.picasso.Picasso
 import ie.wit.citizenscience.R
-import ie.wit.citizenscience.activities.MapActivity
+import ie.wit.citizenscience.ui.mapactivity.MapActivity
 import ie.wit.citizenscience.databinding.FragmentSightingBinding
 import ie.wit.citizenscience.firebase.FirebaseImageManager
-import ie.wit.citizenscience.helpers.customTransformation
 import ie.wit.citizenscience.helpers.readImageUri
 import ie.wit.citizenscience.helpers.showImagePicker
 import ie.wit.citizenscience.main.MainApp
@@ -36,6 +29,7 @@ import ie.wit.citizenscience.models.TaxaDesignationModel
 import ie.wit.citizenscience.ui.auth.LoggedInViewModel
 import timber.log.Timber
 import timber.log.Timber.i
+import java.util.jar.Attributes
 
 
 class SightingFragment : Fragment() {
@@ -47,16 +41,16 @@ class SightingFragment : Fragment() {
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var sightingViewModel: SightingViewModel
+
+
+
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
 
-    private val taxaDesignationList =
-        MutableLiveData<List<TaxaDesignationModel>>()
-
-    val observableTaxaDesignationList: LiveData<List<TaxaDesignationModel>>
-        get() = taxaDesignationList
 
 
-    init { load() }
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,17 +71,86 @@ class SightingFragment : Fragment() {
         sightingViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
                 status -> status?.let { render(status) }
         })
-        //val adapter = ListAdapter(this, android.R.layout.simple_spinner_item, observableTaxaDesignationList )
+
+        sightingViewModel.observableTaxaDesignationList.observe(viewLifecycleOwner, Observer {
+            name ->
+            fragBinding.spinner.adapter = ArrayAdapter(requireContext(), R.layout.support_simple_spinner_dropdown_item, name)
+        })
+
+
+
+        //val taxaList = taxaDesignationList.value?.map {it.name}
+        //i("taxaList : $taxaList")
+
+        //val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, taxaList)
+        //val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, taxaDesignationList.value?.map {it.name})
         //fragBinding.spinner.adapter = adapter
+
+
+
 
 
         activity?.title = getString(R.string.action_add_sighting)
 
+        fragBinding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                val classification: String  = parent?.getItemAtPosition(position).toString()
+                fragBinding.sightingClassification.setText(classification)
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.selected_item) + " " + classification,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Code to perform some action when nothing is selected
+            }
+        }
+
+
+
         setButtonListener(fragBinding)
         registerImagePickerCallback()
         registerMapCallback()
+        //setupSpinner()
         return root
     }
+
+    private fun setupSpinner() {
+        //sightingViewModel.loadClassification()
+        val personNames = arrayOf("Rahul", "Jack", "Rajeev", "Aryan", "Rashmi", "Jaspreet", "Akbar")
+        val spinner = fragBinding.spinner
+        val arrayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, personNames)
+
+        spinner.adapter = arrayAdapter
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.selected_item) + " " + personNames[position] ,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Code to perform some action when nothing is selected
+            }
+        }
+    }
+
+
 
     private fun render(status: Boolean) {
         when (status) {
@@ -230,13 +293,5 @@ class SightingFragment : Fragment() {
             }
     }
 
-    fun load() {
-        try {
-            TaxaDesignationManager.findAll(taxaDesignationList)
-            i("Retrofit Success : $taxaDesignationList.value")
 
-        } catch (e: Exception) {
-            i("Retrofit Error : $e.message")
-        }
-    }
 }
