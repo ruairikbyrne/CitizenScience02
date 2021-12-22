@@ -26,47 +26,28 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/sightingClassification"
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="5dp"
+                android:text="Category:" />
+            <Spinner
+                android:id="@+id/spnClassification"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
-                android:hint="@string/hint_sightingClassification"
-                android:inputType="text"
-                android:maxLength="25"
-                android:maxLines="1"
-                android:padding="8dp"
-                android:paddingLeft="16dp"
-                android:paddingTop="8dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="8dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="14sp"
-                tools:ignore="Autofill,MissingConstraints"
-                tools:layout_conversion_absoluteHeight="731dp"
-                tools:layout_conversion_absoluteWidth="411dp" />
+                android:layout_height="56dp"
+                android:spinnerMode="dropdown"/>
 
-            <EditText
-                android:id="@+id/sightingSpecies"
-                android:layout_width="371dp"
-                android:layout_height="42dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="8dp"
-                android:hint="@string/hint_sightingSpecies"
-                android:inputType="text"
-                android:maxLength="25"
-                android:maxLines="1"
-                android:padding="8dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="14sp"
-                tools:ignore="Autofill,TouchTargetSizeCheck"
-                tools:layout_conversion_absoluteHeight="0dp"
-                tools:layout_conversion_absoluteWidth="0dp" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="5dp"
+                android:text="Common Name:" />
+            <Spinner
+                android:id="@+id/spnSpecies"
+                android:layout_width="match_parent"
+                android:layout_height="65dp" />
 
             <Button
                 android:id="@+id/chooseImage"
@@ -131,16 +112,51 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sightingLocation" />
 
-            <Spinner
-                android:id="@+id/spnClassification"
+            <EditText
+                android:id="@+id/sightingClassification"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:spinnerMode="dropdown"/>
+                android:layout_height="48dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/hint_sightingClassification"
+                android:inputType="text"
+                android:maxLength="25"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:paddingLeft="16dp"
+                android:paddingTop="8dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                tools:ignore="Autofill,MissingConstraints"
+                tools:layout_conversion_absoluteHeight="731dp"
+                tools:layout_conversion_absoluteWidth="411dp"
+                tools:visibility="invisible" />
 
-            <Spinner
-                android:id="@+id/spnSpecies"
-                android:layout_width="match_parent"
-                android:layout_height="65dp" />
+            <EditText
+                android:id="@+id/sightingSpecies"
+                android:layout_width="371dp"
+                android:layout_height="42dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/hint_sightingSpecies"
+                android:inputType="text"
+                android:maxLength="25"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                tools:ignore="Autofill,TouchTargetSizeCheck"
+                tools:layout_conversion_absoluteHeight="0dp"
+                tools:layout_conversion_absoluteWidth="0dp"
+                tools:visibility="invisible" />
 
         </LinearLayout>
     </ScrollView>

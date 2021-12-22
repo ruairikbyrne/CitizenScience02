@@ -147,38 +147,8 @@ class SightingFragment : Fragment() {
         setButtonListener(fragBinding)
         registerImagePickerCallback()
         registerMapCallback()
-        //setupSpinner()
         return root
     }
-
-    private fun setupSpinner() {
-        //sightingViewModel.loadClassification()
-        val personNames = arrayOf("Rahul", "Jack", "Rajeev", "Aryan", "Rashmi", "Jaspreet", "Akbar")
-        val spinner = fragBinding.spnClassification
-        val arrayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, personNames)
-
-        spinner.adapter = arrayAdapter
-
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.selected_item) + " " + personNames[position] ,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Code to perform some action when nothing is selected
-            }
-        }
-    }
-
 
 
     private fun render(status: Boolean) {
