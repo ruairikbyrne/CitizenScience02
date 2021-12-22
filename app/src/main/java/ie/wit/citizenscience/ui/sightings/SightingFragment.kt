@@ -22,14 +22,10 @@ import ie.wit.citizenscience.firebase.FirebaseImageManager
 import ie.wit.citizenscience.helpers.readImageUri
 import ie.wit.citizenscience.helpers.showImagePicker
 import ie.wit.citizenscience.main.MainApp
-import ie.wit.citizenscience.models.Location
-import ie.wit.citizenscience.models.SightingModel
-import ie.wit.citizenscience.models.TaxaDesignationManager
-import ie.wit.citizenscience.models.TaxaDesignationModel
+import ie.wit.citizenscience.models.*
 import ie.wit.citizenscience.ui.auth.LoggedInViewModel
 import timber.log.Timber
 import timber.log.Timber.i
-import java.util.jar.Attributes
 
 
 class SightingFragment : Fragment() {
@@ -45,7 +41,7 @@ class SightingFragment : Fragment() {
 
 
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
-
+    private val taxaClassification : String = ""
 
 
 
@@ -74,10 +70,14 @@ class SightingFragment : Fragment() {
 
         sightingViewModel.observableTaxaDesignationList.observe(viewLifecycleOwner, Observer {
             name ->
-            fragBinding.spinner.adapter = ArrayAdapter(requireContext(), R.layout.support_simple_spinner_dropdown_item, name)
+            fragBinding.spnClassification.adapter = ArrayAdapter(requireContext(), R.layout.support_simple_spinner_dropdown_item, name)
         })
 
 
+        sightingViewModel.observableTaxaSpeciesList.observe(viewLifecycleOwner, Observer {
+                commonName ->
+            fragBinding.spnSpecies.adapter = ArrayAdapter(requireContext(), R.layout.support_simple_spinner_dropdown_item, commonName)
+        })
 
         //val taxaList = taxaDesignationList.value?.map {it.name}
         //i("taxaList : $taxaList")
@@ -92,7 +92,7 @@ class SightingFragment : Fragment() {
 
         activity?.title = getString(R.string.action_add_sighting)
 
-        fragBinding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        fragBinding.spnClassification.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View,
@@ -100,12 +100,14 @@ class SightingFragment : Fragment() {
                 id: Long
             ) {
                 val classification: String  = parent?.getItemAtPosition(position).toString()
+
                 fragBinding.sightingClassification.setText(classification)
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.selected_item) + " " + classification,
                     Toast.LENGTH_SHORT
                 ).show()
+                sightingViewModel.loadSpecies(classification)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -113,6 +115,33 @@ class SightingFragment : Fragment() {
             }
         }
 
+        fragBinding.spnSpecies.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+
+            override fun onItemSelected(
+
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+
+
+                val commonName: String  = parent?.getItemAtPosition(position).toString()
+                fragBinding.sightingSpecies.setText(commonName)
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.selected_item) + " " + commonName,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Code to perform some action when nothing is selected
+            }
+        }
 
 
         setButtonListener(fragBinding)
@@ -125,7 +154,7 @@ class SightingFragment : Fragment() {
     private fun setupSpinner() {
         //sightingViewModel.loadClassification()
         val personNames = arrayOf("Rahul", "Jack", "Rajeev", "Aryan", "Rashmi", "Jaspreet", "Akbar")
-        val spinner = fragBinding.spinner
+        val spinner = fragBinding.spnClassification
         val arrayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, personNames)
 
         spinner.adapter = arrayAdapter

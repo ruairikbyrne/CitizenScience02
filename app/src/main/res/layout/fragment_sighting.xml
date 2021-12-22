@@ -132,10 +132,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/sightingLocation" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/spnClassification"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:spinnerMode="dropdown"/>
+
+            <Spinner
+                android:id="@+id/spnSpecies"
+                android:layout_width="match_parent"
+                android:layout_height="65dp" />
 
         </LinearLayout>
     </ScrollView>

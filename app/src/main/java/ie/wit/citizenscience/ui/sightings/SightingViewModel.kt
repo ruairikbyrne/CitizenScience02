@@ -22,12 +22,12 @@ class SightingViewModel : ViewModel() {
         get() = status
 
     private val taxaDesignationList = MutableLiveData<ArrayList<TaxaDesignationModel>>()
-
-
-
-
     val observableTaxaDesignationList: LiveData<ArrayList<TaxaDesignationModel>>
         get() = taxaDesignationList
+
+    private val taxaSpeciesList = MutableLiveData<ArrayList<TaxaSpeciesModel>>()
+    val observableTaxaSpeciesList: LiveData<ArrayList<TaxaSpeciesModel>>
+        get() = taxaSpeciesList
 
     init {
         loadClassification()
@@ -52,10 +52,25 @@ class SightingViewModel : ViewModel() {
     fun loadClassification() {
         try {
             TaxaDesignationManager.findAll(taxaDesignationList)
-            i("Retrofit Success : $taxaDesignationList")
+            i("Retrofit Taxon Group Success : $taxaDesignationList")
+
+            //TaxaSpeciesManager.findSpecies(taxaSpeciesList, "Birds")
+            //i("Retrofit Species Success : $taxaSpeciesList")
 
         } catch (e: Exception) {
-            i("Retrofit Error : $e.message")
+            i("Retrofit Error SightingVM: $e.message")
+        }
+    }
+
+    fun loadSpecies(selectedValue:String) {
+        try {
+
+            //TaxaSpeciesManager.findSpecies(taxaSpeciesList, "Birds")
+            TaxaSpeciesManager.findSpecies(taxaSpeciesList, selectedValue)
+            i("Retrofit Species Success : $taxaSpeciesList")
+
+        } catch (e: Exception) {
+            i("Retrofit Error SightingVM: $e.message")
         }
     }
 
